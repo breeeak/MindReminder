@@ -7,6 +7,7 @@ import { validateDatabaseSchema } from './database/validateSchema'
 import { AppError } from './utils/errors'
 import { initRepositories, getKnowledgeRepository, getReviewRepository } from './database/repositories'
 import log from './utils/logger'
+import { registerAllHandlers } from './ipc'
 
 function createWindow(): void {
   // Create the browser window.
@@ -18,7 +19,9 @@ function createWindow(): void {
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
-      sandbox: false
+      sandbox: false,
+      contextIsolation: true,  // ✅ 启用context isolation
+      nodeIntegration: false,  // ✅ 禁用node integration
     }
   })
 
@@ -44,8 +47,11 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  log.info('App is ready, initializing...')
+  
   // 初始化数据库
   try {
+    log.info('Initializing database...')
     const dbService = getDatabaseService()
     dbService.initialize()
     
@@ -54,17 +60,24 @@ app.whenReady().then(() => {
     if (!isValid) {
       throw new Error('Database schema validation failed')
     }
+    log.info('Database initialized successfully')
 
     // 初始化Repository
+    log.info('Initializing repositories...')
     initRepositories(dbService)
     log.info('Repositories initialized successfully')
+
+    // 注册IPC handlers
+    log.info('Registering IPC handlers...')
+    registerAllHandlers()
+    log.info('IPC handlers registered successfully')
 
     // 运行测试（仅在开发环境）
     if (is.dev) {
       testRepositories()
     }
   } catch (error) {
-    console.error('Failed to initialize database:', error)
+    log.error('Failed to initialize app:', error)
     
     // 显示用户友好的错误对话框
     let errorMessage = '数据库初始化失败，请重启应用或联系技术支持。'
@@ -81,7 +94,7 @@ app.whenReady().then(() => {
   }
 
   // Set app user model id for windows
-  electronApp.setAppUserModelId('com.electron')
+  electronApp.setAppUserModelId('com.mindreminder')
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
@@ -90,7 +103,7 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
+  // IPC test (legacy - can be removed after IPC handlers are verified)
   ipcMain.on('ping', () => console.log('pong'))
 
   createWindow()

@@ -134,13 +134,21 @@ export class KnowledgeRepository extends BaseRepository<Knowledge> {
     const now = Date.now()
     const id = randomUUID()
     
+    // 辅助函数：将Date对象或timestamp转换为timestamp
+    const toTimestamp = (value: Date | number | undefined): number => {
+      if (!value) return now
+      if (typeof value === 'number') return value
+      if (value instanceof Date) return value.getTime()
+      return now
+    }
+    
     const dbData: Record<string, any> = {
       id: id,
       title: data.title,
       content: data.content,
       tags: JSON.stringify(data.tags || []),
-      created_at: data.createdAt ? data.createdAt.getTime() : now,
-      updated_at: data.updatedAt ? data.updatedAt.getTime() : now,
+      created_at: toTimestamp(data.createdAt),
+      updated_at: toTimestamp(data.updatedAt),
       frequency_coefficient: data.frequencyCoefficient ?? 1.0
     }
 
