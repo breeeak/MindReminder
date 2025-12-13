@@ -1,0 +1,28 @@
+# Dependencies
+node_modules
+
+# Build outputs
+dist
+out
+
+# Electron
+*.log*
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# Environment
+.env
+.env.local
+
+# ESLint
+.eslintcache
