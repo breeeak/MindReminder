@@ -17,8 +17,8 @@ export class DatabaseService {
 
   /**
    * 初始化数据库连接
-   */
-  initialize(): void {
+     */
+       initialize(): void {
     try {
       // 创建数据库连接
       this.db = new Database(this.dbPath, {
@@ -55,8 +55,8 @@ export class DatabaseService {
 
   /**
    * 获取数据库连接实例
-   */
-  getConnection(): Database.Database {
+     */
+       getConnection(): Database.Database {
     if (!this.db) {
       throw new DatabaseError('Database not initialized. Call initialize() first.')
     }
@@ -65,8 +65,8 @@ export class DatabaseService {
 
   /**
    * 关闭数据库连接
-   */
-  close(): void {
+     */
+       close(): void {
     if (this.db) {
       try {
         this.db.close()
@@ -80,12 +80,12 @@ export class DatabaseService {
 
   /**
    * 执行数据库迁移
-   */
-  runMigrations(): void {
+     */
+       runMigrations(): void {
     if (!this.db) {
       throw new DatabaseError('Database not initialized')
     }
-
+    
     try {
       // 创建migrations表（记录已执行的迁移）
       this.db.exec(`
@@ -96,21 +96,21 @@ export class DatabaseService {
           executed_at INTEGER NOT NULL
         )
       `)
-
+    
       // 获取已执行的迁移版本
       const executedMigrations = this.db
         .prepare('SELECT version FROM migrations ORDER BY version')
         .all()
         .map((row: any) => row.version)
-
+    
       log.info('Executed migrations:', executedMigrations)
-
+    
       // 获取所有迁移
       const migrations = getAllMigrations()
       
       // 按版本号排序
       migrations.sort((a, b) => a.version - b.version)
-
+    
       // 执行待处理的迁移
       for (const migration of migrations) {
         if (!executedMigrations.includes(migration.version)) {
@@ -140,7 +140,7 @@ export class DatabaseService {
           }
         }
       }
-
+    
       log.info('All migrations completed successfully')
     } catch (error) {
       log.error('Migration process failed:', error)
@@ -155,12 +155,12 @@ export class DatabaseService {
 
   /**
    * 数据库完整性检查
-   */
-  checkIntegrity(): boolean {
+     */
+       checkIntegrity(): boolean {
     if (!this.db) {
       return false
     }
-
+    
     try {
       const result = this.db.pragma('integrity_check') as Array<{ integrity_check: string }>
       const isValid = result.length === 1 && result[0].integrity_check === 'ok'
