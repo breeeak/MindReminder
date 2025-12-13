@@ -40,7 +40,7 @@ export class KnowledgeRepository extends BaseRepository<Knowledge> {
       return results
     } catch (error) {
       log.error(`[${this.tableName}] Error finding by tags:`, error)
-      throw new DatabaseError('Failed to find records by tags', { cause: error })
+      throw new DatabaseError('Failed to find records by tags')
     }
   }
 
@@ -71,7 +71,7 @@ export class KnowledgeRepository extends BaseRepository<Knowledge> {
       return results
     } catch (error) {
       log.error(`[${this.tableName}] Error searching records:`, error)
-      throw new DatabaseError('Failed to search records', { cause: error })
+      throw new DatabaseError('Failed to search records')
     }
   }
 
@@ -107,7 +107,7 @@ export class KnowledgeRepository extends BaseRepository<Knowledge> {
       return success
     } catch (error) {
       log.error(`[${this.tableName}] Error updating frequency coefficient:`, error)
-      throw new DatabaseError('Failed to update frequency coefficient', { cause: error })
+      throw new DatabaseError('Failed to update frequency coefficient')
     }
   }
 
@@ -164,7 +164,7 @@ export class KnowledgeRepository extends BaseRepository<Knowledge> {
       return created
     } catch (error) {
       log.error(`[${this.tableName}] Error creating record:`, error)
-      throw new DatabaseError('Failed to create record', { cause: error })
+      throw new DatabaseError('Failed to create record')
     }
   }
 
@@ -206,7 +206,7 @@ export class KnowledgeRepository extends BaseRepository<Knowledge> {
       return updated
     } catch (error) {
       log.error(`[${this.tableName}] Error updating record:`, error)
-      throw new DatabaseError(`Failed to update record: id=${id}`, { cause: error })
+      throw new DatabaseError(`Failed to update record: id=${id}`)
     }
   }
 }

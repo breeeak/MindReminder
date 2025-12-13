@@ -86,7 +86,7 @@ export abstract class BaseRepository<T extends { id: string }> {
       return entity
     } catch (error) {
       log.error(`[${this.tableName}] Error finding record by id:`, error)
-      throw new DatabaseError(`Failed to find record by id: ${id}`, { cause: error })
+      throw new DatabaseError(`Failed to find record by id: ${id}`)
     }
   }
 
@@ -106,7 +106,7 @@ export abstract class BaseRepository<T extends { id: string }> {
       return entities
     } catch (error) {
       log.error(`[${this.tableName}] Error finding all records:`, error)
-      throw new DatabaseError('Failed to find all records', { cause: error })
+      throw new DatabaseError('Failed to find all records')
     }
   }
 
@@ -145,7 +145,7 @@ export abstract class BaseRepository<T extends { id: string }> {
       return created
     } catch (error) {
       log.error(`[${this.tableName}] Error creating record:`, error)
-      throw new DatabaseError('Failed to create record', { cause: error })
+      throw new DatabaseError('Failed to create record')
     }
   }
 
@@ -185,7 +185,7 @@ export abstract class BaseRepository<T extends { id: string }> {
       return updated
     } catch (error) {
       log.error(`[${this.tableName}] Error updating record:`, error)
-      throw new DatabaseError(`Failed to update record: id=${id}`, { cause: error })
+      throw new DatabaseError(`Failed to update record: id=${id}`)
     }
   }
 
@@ -211,7 +211,7 @@ export abstract class BaseRepository<T extends { id: string }> {
       return success
     } catch (error) {
       log.error(`[${this.tableName}] Error deleting record:`, error)
-      throw new DatabaseError(`Failed to delete record: id=${id}`, { cause: error })
+      throw new DatabaseError(`Failed to delete record: id=${id}`)
     }
   }
 

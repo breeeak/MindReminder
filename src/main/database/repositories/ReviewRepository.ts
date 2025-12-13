@@ -36,7 +36,7 @@ export class ReviewRepository extends BaseRepository<ReviewHistory> {
       return results
     } catch (error) {
       log.error(`[${this.tableName}] Error finding by knowledge_id:`, error)
-      throw new DatabaseError('Failed to find records by knowledge_id', { cause: error })
+      throw new DatabaseError('Failed to find records by knowledge_id')
     }
   }
 
@@ -62,7 +62,7 @@ export class ReviewRepository extends BaseRepository<ReviewHistory> {
       return results
     } catch (error) {
       log.error(`[${this.tableName}] Error finding due reviews:`, error)
-      throw new DatabaseError('Failed to find due reviews', { cause: error })
+      throw new DatabaseError('Failed to find due reviews')
     }
   }
 
@@ -115,7 +115,7 @@ export class ReviewRepository extends BaseRepository<ReviewHistory> {
       return created
     } catch (error) {
       log.error(`[${this.tableName}] Error creating review:`, error)
-      throw new DatabaseError('Failed to create review', { cause: error })
+      throw new DatabaseError('Failed to create review')
     }
   }
 
@@ -171,7 +171,7 @@ export class ReviewRepository extends BaseRepository<ReviewHistory> {
       return created
     } catch (error) {
       log.error(`[${this.tableName}] Error creating record:`, error)
-      throw new DatabaseError('Failed to create record', { cause: error })
+      throw new DatabaseError('Failed to create record')
     }
   }
 
@@ -214,7 +214,7 @@ export class ReviewRepository extends BaseRepository<ReviewHistory> {
       return updated
     } catch (error) {
       log.error(`[${this.tableName}] Error updating record:`, error)
-      throw new DatabaseError(`Failed to update record: id=${id}`, { cause: error })
+      throw new DatabaseError(`Failed to update record: id=${id}`)
     }
   }
 }
