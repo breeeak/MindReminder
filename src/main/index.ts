@@ -1,7 +1,10 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { getDatabaseService } from './database/DatabaseService'
+import { validateDatabaseSchema } from './database/validateSchema'
+import { AppError } from './utils/errors'
 
 function createWindow(): void {
   // Create the browser window.
@@ -39,6 +42,33 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+  // 初始化数据库
+  try {
+    const dbService = getDatabaseService()
+    dbService.initialize()
+    
+    // 验证数据库结构
+    const isValid = validateDatabaseSchema()
+    if (!isValid) {
+      throw new Error('Database schema validation failed')
+    }
+  } catch (error) {
+    console.error('Failed to initialize database:', error)
+    
+    // 显示用户友好的错误对话框
+    let errorMessage = '数据库初始化失败，请重启应用或联系技术支持。'
+    
+    if (error instanceof AppError) {
+      errorMessage = error.userMessage
+    }
+    
+    dialog.showErrorBox('数据库错误', errorMessage)
+    
+    // 严重错误，退出应用
+    app.quit()
+    return
+  }
+
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -65,6 +95,10 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  // 关闭数据库连接
+  const dbService = getDatabaseService()
+  dbService.close()
+  
   if (process.platform !== 'darwin') {
     app.quit()
   }
