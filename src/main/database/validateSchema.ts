@@ -7,7 +7,14 @@ export function validateDatabaseSchema(): boolean {
 
   try {
     // 检查必需的表
-    const requiredTables = ['knowledge', 'review_history', 'diary', 'reminder', 'settings', 'migrations']
+    const requiredTables = [
+      'knowledge',
+      'review_history',
+      'diary',
+      'reminder',
+      'settings',
+      'migrations'
+    ]
     const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all()
     const tableNames = tables.map((t: any) => t.name)
 
@@ -32,17 +39,19 @@ export function validateDatabaseSchema(): boolean {
       'idx_reminder_due_date',
       'idx_reminder_completed'
     ]
-    
-    const indices = db.prepare("SELECT name FROM sqlite_master WHERE type='index' AND name LIKE 'idx_%'").all()
+
+    const indices = db
+      .prepare("SELECT name FROM sqlite_master WHERE type='index' AND name LIKE 'idx_%'")
+      .all()
     const indexNames = indices.map((i: any) => i.name)
-    
+
     for (const indexName of requiredIndices) {
       if (!indexNames.includes(indexName)) {
         log.error(`Missing required index: ${indexName}`)
         return false
       }
     }
-    
+
     log.info(`All ${requiredIndices.length} required indices exist`)
 
     // 检查外键是否启用
@@ -62,12 +71,14 @@ export function validateDatabaseSchema(): boolean {
     }
 
     // 检查预设数据
-    const settingsCount = db.prepare('SELECT COUNT(*) as count FROM settings').get() as { count: number }
+    const settingsCount = db.prepare('SELECT COUNT(*) as count FROM settings').get() as {
+      count: number
+    }
     if (settingsCount.count < 5) {
       log.error(`Settings table has ${settingsCount.count} rows, expected at least 5`)
       return false
     }
-    
+
     log.info(`Settings table has ${settingsCount.count} default values`)
 
     log.info('Database schema validation passed')
@@ -77,4 +88,3 @@ export function validateDatabaseSchema(): boolean {
     return false
   }
 }
-

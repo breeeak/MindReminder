@@ -5,6 +5,7 @@
 **技术基础：** electron-vite项目骨架、数据库架构、核心算法基础、基础UI框架
 
 **覆盖需求：**
+
 - 架构需求：Starter Template (electron-vite + React + TypeScript + Ant Design)
 - 架构需求：数据库5表结构 + Repository模式
 - 架构需求：复习算法框架（SpacedRepetitionAlgorithm）
@@ -25,6 +26,7 @@ So that **团队可以在统一的技术栈上开始开发，避免配置差异�
 **Given** 开发环境已安装Node.js 18+和pnpm
 **When** 执行`npm create @quick-start/electron`创建项目
 **Then** 项目结构应包含以下关键目录和文件：
+
 - `src/main/` - 主进程代码目录
 - `src/renderer/` - 渲染进程代码目录
 - `src/preload/` - 预加载脚本目录
@@ -37,16 +39,19 @@ So that **团队可以在统一的技术栈上开始开发，避免配置差异�
 **And** 热重载功能正常工作（修改代码后自动刷新）
 
 **And** Ant Design已集成：
+
 - `package.json`包含`antd@5.x`依赖
 - 在`src/renderer/main.tsx`中能成功导入并使用Ant Design组件（如Button）
 - 主题配置文件已创建（`src/renderer/theme.ts`）
 
 **And** TypeScript配置完整：
+
 - `tsconfig.json`配置严格模式（`strict: true`）
 - 包含路径别名配置（`@/*`指向`src/*`）
 - 编译无错误
 
 **And** 项目根目录包含以下文档：
+
 - `README.md` - 项目说明和快速开始指南
 - `.gitignore` - 忽略node_modules、dist等
 - `package.json`中的scripts包含：dev、build、preview命令
@@ -68,12 +73,14 @@ So that **应用可以持久化存储用户数据，并支持未来的数据库�
 
 **When** 实现DatabaseService类（`src/main/services/DatabaseService.ts`）
 **Then** DatabaseService提供以下方法：
+
 - `initialize()` - 初始化数据库连接
 - `getConnection()` - 获取数据库连接实例
 - `close()` - 关闭数据库连接
 - `runMigrations()` - 执行数据库迁移
 
 **And** 数据库文件存储在正确位置：
+
 - Windows: `%APPDATA%/MindReminder/mindreminder.db`
 - macOS: `~/Library/Application Support/MindReminder/mindreminder.db`
 - 如果目录不存在则自动创建
@@ -82,6 +89,7 @@ So that **应用可以持久化存储用户数据，并支持未来的数据库�
 **Then** 创建迁移文件目录`src/main/migrations/`
 **And** 创建`migrations.ts`管理迁移版本
 **And** 创建初始迁移文件`001_initial_schema.sql`包含：
+
 ```sql
 -- knowledge表（知识点）
 CREATE TABLE IF NOT EXISTS knowledge (
@@ -132,6 +140,7 @@ So that **业务逻辑与数据访问分离，代码更易测试和维护**.
 **Given** SQLite数据库基础设施已完成（Story 1.2）
 **When** 创建BaseRepository抽象类（`src/main/repositories/BaseRepository.ts`）
 **Then** BaseRepository提供通用CRUD方法：
+
 - `findById(id: number): T | null`
 - `findAll(): T[]`
 - `create(data: Partial<T>): T`
@@ -145,39 +154,43 @@ So that **业务逻辑与数据访问分离，代码更易测试和维护**.
 **When** 实现KnowledgeRepository（`src/main/repositories/KnowledgeRepository.ts`）
 **Then** KnowledgeRepository继承BaseRepository
 **And** 提供知识点特定方法：
+
 - `findByTags(tags: string[]): Knowledge[]`
 - `search(keyword: string): Knowledge[]`
 - `findByStatus(status: string): Knowledge[]`
 - `updateFrequencyCoefficient(id: number, coefficient: number): boolean`
 
 **And** 定义Knowledge类型（`src/main/types/Knowledge.ts`）：
+
 ```typescript
 interface Knowledge {
-  id: number;
-  title: string;
-  content: string;
-  tags: string[];
-  createdAt: Date;
-  updatedAt: Date;
-  frequencyCoefficient: number;
+  id: number
+  title: string
+  content: string
+  tags: string[]
+  createdAt: Date
+  updatedAt: Date
+  frequencyCoefficient: number
 }
 ```
 
 **When** 实现ReviewRepository（`src/main/repositories/ReviewRepository.ts`）
 **Then** ReviewRepository继承BaseRepository
 **And** 提供复习历史特定方法：
+
 - `findByKnowledgeId(knowledgeId: number): ReviewHistory[]`
 - `findDueReviews(date: Date): ReviewHistory[]`
 - `createReview(knowledgeId: number, rating: number, nextReviewDate: Date): ReviewHistory`
 
 **And** 定义ReviewHistory类型（`src/main/types/ReviewHistory.ts`）：
+
 ```typescript
 interface ReviewHistory {
-  id: number;
-  knowledgeId: number;
-  rating: number;
-  reviewDate: Date;
-  nextReviewDate: Date;
+  id: number
+  knowledgeId: number
+  rating: number
+  reviewDate: Date
+  nextReviewDate: Date
 }
 ```
 
@@ -204,12 +217,14 @@ So that **系统能科学地计算知识点的下次复习时间，帮助用户�
 **Given** 项目基础设施已完成（Story 1.1-1.3）
 **When** 创建SpacedRepetitionAlgorithm类（`src/main/algorithms/SpacedRepetitionAlgorithm.ts`）
 **Then** 类提供以下核心方法：
+
 - `calculateNextReviewDate(lastReviewDate: Date, reviewCount: number, rating: number, frequencyCoefficient: number): Date`
 - `getRatingMultiplier(rating: number): number`
 - `isKnowledgeMastered(reviewHistory: ReviewHistory[]): boolean`
 
 **When** 实现评分系数映射
 **Then** getRatingMultiplier返回正确的系数：
+
 - 评分1（😟 忘记了）→ 0.5
 - 评分2（🤔 记得一点）→ 0.7
 - 评分3（😐 记得一般）→ 1.0
@@ -218,6 +233,7 @@ So that **系统能科学地计算知识点的下次复习时间，帮助用户�
 
 **When** 实现艾宾浩斯遗忘曲线计算
 **Then** calculateNextReviewDate使用以下间隔（天）：
+
 - 第1次复习：1天
 - 第2次复习：2天
 - 第3次复习：4天
@@ -230,18 +246,21 @@ So that **系统能科学地计算知识点的下次复习时间，帮助用户�
 **And** 最终计算公式：`nextReviewDate = lastReviewDate + (baseInterval × ratingMultiplier × frequencyCoefficient)`
 
 **When** 计算示例：
+
 - 第3次复习，评分4（😊），全局频率系数1.0
-**Then** 下次复习间隔 = 4天 × 1.2 × 1.0 = 4.8天（向上取整为5天）
+  **Then** 下次复习间隔 = 4天 × 1.2 × 1.0 = 4.8天（向上取整为5天）
 
 **When** 实现记忆掌握判断
 **Then** isKnowledgeMastered检查以下条件：
+
 - 至少进行过5次复习
 - 最近3次复习评分均 ≥ 4（😊）
 - 距离首次记录时间 ≥ 30天
-**And** 所有条件满足时返回true
+  **And** 所有条件满足时返回true
 
 **When** 创建单元测试（`src/main/algorithms/SpacedRepetitionAlgorithm.test.ts`）
 **Then** 测试覆盖以下场景：
+
 - 评分系数映射正确性
 - 各个复习阶段的间隔计算
 - 频率系数对间隔的影响
@@ -264,6 +283,7 @@ So that **前端UI可以调用后端服务，同时保证Electron安全最佳实
 **Given** 项目基础设施和Repository层已完成（Story 1.1-1.3）
 **When** 定义IPC通道枚举（`src/common/ipc-channels.ts`）
 **Then** 包含以下通道定义：
+
 ```typescript
 export enum IPCChannel {
   // Knowledge相关
@@ -273,20 +293,21 @@ export enum IPCChannel {
   KNOWLEDGE_FIND_BY_ID = 'knowledge:findById',
   KNOWLEDGE_FIND_ALL = 'knowledge:findAll',
   KNOWLEDGE_SEARCH = 'knowledge:search',
-  
+
   // Review相关
   REVIEW_CREATE = 'review:create',
   REVIEW_FIND_DUE = 'review:findDue',
   REVIEW_FIND_BY_KNOWLEDGE = 'review:findByKnowledge',
-  
+
   // Settings相关
   SETTINGS_GET = 'settings:get',
-  SETTINGS_UPDATE = 'settings:update',
+  SETTINGS_UPDATE = 'settings:update'
 }
 ```
 
 **When** 实现Context Bridge（`src/preload/index.ts`）
 **Then** 暴露安全的API给渲染进程：
+
 ```typescript
 contextBridge.exposeInMainWorld('electronAPI', {
   knowledge: {
@@ -295,14 +316,16 @@ contextBridge.exposeInMainWorld('electronAPI', {
     delete: (id) => ipcRenderer.invoke(IPCChannel.KNOWLEDGE_DELETE, id),
     findById: (id) => ipcRenderer.invoke(IPCChannel.KNOWLEDGE_FIND_BY_ID, id),
     findAll: () => ipcRenderer.invoke(IPCChannel.KNOWLEDGE_FIND_ALL),
-    search: (keyword) => ipcRenderer.invoke(IPCChannel.KNOWLEDGE_SEARCH, keyword),
+    search: (keyword) => ipcRenderer.invoke(IPCChannel.KNOWLEDGE_SEARCH, keyword)
   },
   review: {
-    create: (knowledgeId, rating) => ipcRenderer.invoke(IPCChannel.REVIEW_CREATE, knowledgeId, rating),
+    create: (knowledgeId, rating) =>
+      ipcRenderer.invoke(IPCChannel.REVIEW_CREATE, knowledgeId, rating),
     findDue: (date) => ipcRenderer.invoke(IPCChannel.REVIEW_FIND_DUE, date),
-    findByKnowledge: (knowledgeId) => ipcRenderer.invoke(IPCChannel.REVIEW_FIND_BY_KNOWLEDGE, knowledgeId),
-  },
-});
+    findByKnowledge: (knowledgeId) =>
+      ipcRenderer.invoke(IPCChannel.REVIEW_FIND_BY_KNOWLEDGE, knowledgeId)
+  }
+})
 ```
 
 **And** 创建TypeScript类型声明（`src/preload/index.d.ts`）
@@ -312,6 +335,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 **Then** 为每个通道注册ipcMain.handle处理函数
 **And** 处理器调用对应的Repository方法
 **And** 处理器返回标准化响应格式：
+
 ```typescript
 {
   success: boolean;
@@ -328,10 +352,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
 **When** 配置electron-log（`src/main/logger.ts`）
 **Then** 日志文件存储位置：
+
 - Windows: `%APPDATA%/MindReminder/logs/`
 - macOS: `~/Library/Logs/MindReminder/`
-**And** 日志级别可配置（开发环境：debug，生产环境：info）
-**And** 日志文件自动轮转（每日一个文件，保留7天）
+  **And** 日志级别可配置（开发环境：debug，生产环境：info）
+  **And** 日志文件自动轮转（每日一个文件，保留7天）
 
 **When** 从渲染进程调用IPC接口
 **Then** 调用成功时返回数据
@@ -356,35 +381,37 @@ So that **应用可以高效管理跨组件的状态，避免prop drilling和状
 
 **When** 创建应用状态Store（`src/renderer/stores/appStore.ts`）
 **Then** Store包含以下状态：
+
 ```typescript
 interface AppState {
   // 应用级状态
-  isLoading: boolean;
-  currentView: 'calendar' | 'list' | 'detail';
-  theme: 'light' | 'dark';
-  
+  isLoading: boolean
+  currentView: 'calendar' | 'list' | 'detail'
+  theme: 'light' | 'dark'
+
   // 操作方法
-  setLoading: (isLoading: boolean) => void;
-  setCurrentView: (view: string) => void;
-  setTheme: (theme: string) => void;
+  setLoading: (isLoading: boolean) => void
+  setCurrentView: (view: string) => void
+  setTheme: (theme: string) => void
 }
 ```
 
 **When** 创建知识点状态Store（`src/renderer/stores/knowledgeStore.ts`）
 **Then** Store包含以下状态和方法：
+
 ```typescript
 interface KnowledgeState {
   // 状态
-  knowledgeList: Knowledge[];
-  currentKnowledge: Knowledge | null;
-  isLoading: boolean;
-  
+  knowledgeList: Knowledge[]
+  currentKnowledge: Knowledge | null
+  isLoading: boolean
+
   // 操作方法
-  loadKnowledgeList: () => Promise<void>;
-  loadKnowledge: (id: number) => Promise<void>;
-  createKnowledge: (data: Partial<Knowledge>) => Promise<void>;
-  updateKnowledge: (id: number, data: Partial<Knowledge>) => Promise<void>;
-  deleteKnowledge: (id: number) => Promise<void>;
+  loadKnowledgeList: () => Promise<void>
+  loadKnowledge: (id: number) => Promise<void>
+  createKnowledge: (data: Partial<Knowledge>) => Promise<void>
+  updateKnowledge: (id: number, data: Partial<Knowledge>) => Promise<void>
+  deleteKnowledge: (id: number) => Promise<void>
 }
 ```
 
@@ -393,16 +420,19 @@ interface KnowledgeState {
 
 **When** 创建Store组合Hook（`src/renderer/stores/index.ts`）
 **Then** 导出所有Store的Hook：
+
 ```typescript
-export { useAppStore } from './appStore';
-export { useKnowledgeStore } from './knowledgeStore';
+export { useAppStore } from './appStore'
+export { useKnowledgeStore } from './knowledgeStore'
 ```
 
 **When** 在React组件中使用Store
 **Then** 组件可以通过Hook访问状态：
+
 ```typescript
-const { knowledgeList, loadKnowledgeList } = useKnowledgeStore();
+const { knowledgeList, loadKnowledgeList } = useKnowledgeStore()
 ```
+
 **And** 状态变化时组件自动重新渲染
 **And** 只订阅使用的状态（避免不必要的重渲染）
 
@@ -418,20 +448,113 @@ const { knowledgeList, loadKnowledgeList } = useKnowledgeStore();
 
 ---
 
+## Story 1.7: UI主题和布局系统
+
+As a **开发者**,
+I want **实现Ant Design主题定制和应用布局系统**,
+So that **应用拥有专业美观的UI界面，符合UX设计规范中定义的视觉风格和布局结构**.
+
+**Acceptance Criteria:**
+
+**Given** electron-vite项目和Ant Design已集成（Story 1.1）
+**And** Zustand状态管理已建立（Story 1.6）
+
+**When** 实现Ant Design主题定制
+**Then** 创建主题配置文件（`src/renderer/theme.ts`）包含：
+
+- 浅色模式完整颜色系统（primary, success, warning, error等）
+- 深色模式完整颜色系统（亮度调整后的颜色）
+- 语义化颜色映射（knowledge蓝色、diary绿色、reminder橙色）
+- 所有颜色满足WCAG AA对比度标准
+
+**And** 使用ConfigProvider在App.tsx中配置全局主题
+**And** 主题配置支持动态切换
+**And** TypeScript类型定义完整
+
+**When** 实现三栏布局系统
+**Then** 创建AppLayout组件（`src/renderer/components/AppLayout.tsx`）包含：
+
+- 顶栏（48px高）：Logo、搜索框、新建按钮、主题切换、设置
+- 左侧导航（120px宽，可折叠）：主要菜单项（今日复习、所有知识点、日历、统计）
+- 中间内容区：路由Outlet，显示当前页面内容
+- 布局响应式：最小宽度1280px，小屏自动折叠左侧导航
+
+**And** 左侧导航菜单包含以下项：
+
+- 📅 今日复习 → `/review`
+- 📚 所有知识点 → `/knowledge`
+- 📆 日历视图 → `/calendar`
+- 📊 统计 → `/statistics`
+
+**And** 菜单项可点击，正确跳转路由
+**And** 当前路由的菜单项高亮显示
+**And** 菜单折叠状态保存到localStorage
+
+**When** 实现主题切换功能
+**Then** 扩展appStore添加主题状态：
+
+```typescript
+interface AppState {
+  theme: 'light' | 'dark' | 'auto'
+  setTheme: (theme: 'light' | 'dark' | 'auto') => void
+}
+```
+
+**And** 顶栏主题切换按钮可切换浅色/深色/自动
+**And** 'auto'模式自动检测并跟随系统主题
+**And** 监听系统主题变化，'auto'模式实时响应
+**And** 主题偏好保存到localStorage
+**And** 应用启动时恢复上次主题设置
+**And** 主题切换过渡动画平滑（0.3s）
+
+**When** 实现设计令牌系统
+**Then** 配置字体系统（系统字体栈，支持中英文）
+**And** 配置8px网格间距系统（4px、8px、16px、24px、32px）
+**And** 配置字体尺寸（Body 14px、H4 20px、H3 24px）
+**And** 应用视觉温暖化元素：
+
+- 适度圆角：按钮4px、卡片6px
+- 柔和阴影：`box-shadow: 0 2px 8px rgba(0,0,0,0.06)`
+- 流畅动画：`transition: all 0.2s ease-in-out`
+
+**When** 进行跨平台测试
+**Then** Windows和macOS平台布局正常显示
+**And** 系统主题检测在两平台正常工作
+**And** 字体渲染清晰美观
+
+**When** 进行响应式测试
+**Then** 1280px最小宽度下布局正常
+**And** < 1280px时左侧导航自动折叠为图标
+**And** 1920px大屏幕下布局美观
+**And** 动态调整窗口大小响应流畅
+
+**When** 进行视觉验证
+**Then** 所有颜色正确应用，符合UX设计规范
+**And** 文本颜色对比度满足WCAG AA标准
+**And** 间距系统符合8px网格
+**And** 圆角和阴影正确应用
+**And** 整体视觉温暖专业
+
+---
+
 ## Epic 1 完成！
 
-✅ **已创建6个Stories**
+✅ **已创建7个Stories**
+
 - Story 1.1: electron-vite项目初始化
 - Story 1.2: SQLite数据库基础设施
 - Story 1.3: Repository模式数据访问层
 - Story 1.4: 复习算法核心框架
 - Story 1.5: IPC通信基础架构
 - Story 1.6: Zustand状态管理基础
+- Story 1.7: UI主题和布局系统 ⭐ 新增
 
 ✅ **覆盖需求验证：**
+
 - ✅ 架构需求：Starter Template (electron-vite + React + TypeScript + Ant Design) → Story 1.1
 - ✅ 架构需求：数据库5表结构 + Repository模式 → Story 1.2, 1.3
 - ✅ 架构需求：复习算法框架（SpacedRepetitionAlgorithm）→ Story 1.4
 - ✅ 架构需求：IPC通信基础架构 → Story 1.5
 - ✅ FR50: 本地SQLite数据库存储 → Story 1.2
 - ✅ NFR-M1, NFR-M2: 模块化架构和可扩展性 → 所有Stories
+- ✅ UX设计规范：UI主题和布局系统 → Story 1.7 ⭐

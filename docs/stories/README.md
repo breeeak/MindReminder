@@ -5,11 +5,13 @@
 ## 📚 Epic概览
 
 ### Epic 1: 项目基础设施与开发环境 ✅
+
 **文件:** [epic-1-infrastructure.md](./epic-1-infrastructure.md)
 
 **用户成果:** 开发团队拥有完整配置的开发环境，可以开始构建功能
 
 **Stories (6个):**
+
 - Story 1.1: electron-vite项目初始化
 - Story 1.2: SQLite数据库基础设施
 - Story 1.3: Repository模式数据访问层
@@ -22,11 +24,13 @@
 ---
 
 ### Epic 2: 知识点管理核心功能
+
 **文件:** [epic-2-knowledge.md](./epic-2-knowledge.md)
 
 **用户成果:** 用户可以创建、编辑、查看和管理知识点，支持标签分类和搜索
 
 **Stories (4个):**
+
 - Story 2.1: 知识点CRUD基础功能
 - Story 2.2: 标签和分类管理
 - Story 2.3: 知识点搜索功能
@@ -37,11 +41,13 @@
 ---
 
 ### Epic 3: 智能复习系统
+
 **文件:** [epic-3-review.md](./epic-3-review.md)
 
 **用户成果:** 用户可以按照科学的间隔重复算法进行复习，通过人性化评分调整记忆进度
 
 **Stories (5个):**
+
 - Story 3.1: 今日复习任务列表
 - Story 3.2: 复习流程和人性化评分
 - Story 3.3: 复习算法动态调整
@@ -53,11 +59,13 @@
 ---
 
 ### Epic 4: 日历可视化与统计
+
 **文件:** [epic-4-calendar.md](./epic-4-calendar.md)
 
 **用户成果:** 用户通过日历热力图直观看到学习轨迹，了解学习进度和成就
 
 **Stories (5个):**
+
 - Story 4.1: 日历热力图基础
 - Story 4.2: 多视图切换
 - Story 4.3: 今日摘要和每日统计
@@ -69,11 +77,13 @@
 ---
 
 ### Epic 5: 系统集成与数据管理
+
 **文件:** [epic-5-system.md](./epic-5-system.md)
 
 **用户成果:** 用户享受桌面应用的原生体验，数据安全可靠，支持备份和导出
 
 **Stories (6个):**
+
 - Story 5.1: 系统托盘集成
 - Story 5.2: 全局快捷键
 - Story 5.3: 数据备份和恢复
@@ -91,17 +101,18 @@
 
 **完整覆盖:** 72/72 (100%)
 
-| Epic | 覆盖FR | 百分比 |
-|------|--------|--------|
-| Epic 1 | 1个FR + 架构需求 | - |
-| Epic 2 | 13个FR (FR1-FR9, FR40-FR43) | 18% |
-| Epic 3 | 9个FR (FR10-FR18) | 13% |
-| Epic 4 | 27个FR (FR19-FR26, FR27-FR32, FR33-FR39, FR44-FR49) | 38% |
-| Epic 5 | 22个FR (FR50-FR72) | 31% |
+| Epic   | 覆盖FR                                              | 百分比 |
+| ------ | --------------------------------------------------- | ------ |
+| Epic 1 | 1个FR + 架构需求                                    | -      |
+| Epic 2 | 13个FR (FR1-FR9, FR40-FR43)                         | 18%    |
+| Epic 3 | 9个FR (FR10-FR18)                                   | 13%    |
+| Epic 4 | 27个FR (FR19-FR26, FR27-FR32, FR33-FR39, FR44-FR49) | 38%    |
+| Epic 5 | 22个FR (FR50-FR72)                                  | 31%    |
 
 ### 非功能需求 (NFR)
 
 **全部覆盖:**
+
 - ✅ NFR-P (性能): Epic 1, 3, 4
 - ✅ NFR-R (可靠性): Epic 1, 5
 - ✅ NFR-S (安全): Epic 5
@@ -115,26 +126,34 @@
 ## 🎯 实施建议
 
 ### Phase 1: 基础设施（Week 1-2）
+
 **优先级：P0 - 最高**
+
 - ✅ Epic 1全部Stories
 - 依赖：无
 - 阻塞：所有其他Epics
 
 ### Phase 2: 核心功能（Week 3-6）
+
 **优先级：P1 - 高**
+
 - Epic 2全部Stories
 - Epic 3: Story 3.1-3.3
 - 依赖：Epic 1
 - 阻塞：Epic 4部分功能
 
 ### Phase 3: 可视化与完善（Week 7-9）
+
 **优先级：P2 - 中**
+
 - Epic 4全部Stories
 - Epic 3: Story 3.4-3.5
 - 依赖：Epic 1, 2, 3.1-3.3
 
 ### Phase 4: 系统集成（Week 10-12）
+
 **优先级：P2 - 中**
+
 - Epic 5全部Stories
 - 依赖：Epic 1-4
 - 无阻塞
@@ -159,6 +178,7 @@ And [额外验证]
 ```
 
 **验收标准类型：**
+
 - 功能完整性验证
 - UI/UX交互验证
 - 性能和响应时间验证
@@ -170,18 +190,21 @@ And [额外验证]
 ## 🔍 如何使用这些Stories
 
 ### 开发人员：
+
 1. 阅读Epic概览了解整体目标
 2. 按实施优先级顺序开发Stories
 3. 严格遵循Acceptance Criteria
 4. 完成后执行所有验收测试
 
 ### 产品经理：
+
 1. 基于Stories进行Sprint规划
 2. 评审验收标准完整性
 3. 确认业务价值优先级
 4. 跟踪Epic和Story完成进度
 
 ### 测试工程师：
+
 1. 基于Acceptance Criteria编写测试用例
 2. 验证每个Given-When-Then场景
 3. 执行跨平台兼容性测试
@@ -192,6 +215,7 @@ And [额外验证]
 ## ✅ 完成标准
 
 **Epic完成定义：**
+
 - 所有Stories的Acceptance Criteria通过
 - 单元测试覆盖率达标（核心算法100%，其他>80%）
 - 集成测试通过
@@ -200,6 +224,7 @@ And [额外验证]
 - 文档更新
 
 **MVP完成标准：**
+
 - Epic 1-5全部完成
 - 所有72个FR覆盖
 - 关键NFR验证通过

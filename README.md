@@ -19,21 +19,25 @@
 ## 快速开始
 
 ### 安装依赖
+
 ```bash
 pnpm install
 ```
 
 ### 启动开发服务器
+
 ```bash
 pnpm dev
 ```
 
 ### 构建生产版本
+
 ```bash
 pnpm build
 ```
 
 ### 预览生产版本
+
 ```bash
 pnpm preview
 ```

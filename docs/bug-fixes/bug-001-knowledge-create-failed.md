@@ -4,7 +4,7 @@
 **发现时间**: 2025-12-13  
 **修复时间**: 2025-12-13  
 **Story**: 1.5 IPC通信基础架构  
-**严重程度**: HIGH（阻塞功能）  
+**严重程度**: HIGH（阻塞功能）
 
 ---
 
@@ -57,24 +57,26 @@ TypeError: data.createdAt.getTime is not a function
 **文件**: `src/renderer/src/App.tsx`
 
 **修改前**:
+
 ```typescript
 const response = await window.api.knowledge.create({
   title: '测试知识点',
   content: '这是测试内容',
   tags: ['测试', 'IPC'],
-  createdAt: Date.now(),  // ❌ 传递timestamp
-  updatedAt: Date.now(),  // ❌ 传递timestamp
-  frequencyCoefficient: 1.0,
+  createdAt: Date.now(), // ❌ 传递timestamp
+  updatedAt: Date.now(), // ❌ 传递timestamp
+  frequencyCoefficient: 1.0
 })
 ```
 
 **修改后**:
+
 ```typescript
 const response = await window.api.knowledge.create({
   title: '测试知识点',
   content: '这是测试内容',
   tags: ['测试', 'IPC'],
-  frequencyCoefficient: 1.0,
+  frequencyCoefficient: 1.0
   // ✅ 移除createdAt和updatedAt，由后端自动生成
 })
 ```
@@ -88,19 +90,21 @@ const response = await window.api.knowledge.create({
 **文件**: `src/main/database/repositories/KnowledgeRepository.ts`
 
 **修改前**:
+
 ```typescript
 const dbData: Record<string, any> = {
   id: id,
   title: data.title,
   content: data.content,
   tags: JSON.stringify(data.tags || []),
-  created_at: data.createdAt ? data.createdAt.getTime() : now,  // ❌ 假设是Date对象
-  updated_at: data.updatedAt ? data.updatedAt.getTime() : now,  // ❌ 假设是Date对象
+  created_at: data.createdAt ? data.createdAt.getTime() : now, // ❌ 假设是Date对象
+  updated_at: data.updatedAt ? data.updatedAt.getTime() : now, // ❌ 假设是Date对象
   frequency_coefficient: data.frequencyCoefficient ?? 1.0
 }
 ```
 
 **修改后**:
+
 ```typescript
 // 辅助函数：将Date对象或timestamp转换为timestamp
 const toTimestamp = (value: Date | number | undefined): number => {
@@ -115,8 +119,8 @@ const dbData: Record<string, any> = {
   title: data.title,
   content: data.content,
   tags: JSON.stringify(data.tags || []),
-  created_at: toTimestamp(data.createdAt),  // ✅ 兼容number和Date
-  updated_at: toTimestamp(data.updatedAt),  // ✅ 兼容number和Date
+  created_at: toTimestamp(data.createdAt), // ✅ 兼容number和Date
+  updated_at: toTimestamp(data.updatedAt), // ✅ 兼容number和Date
   frequency_coefficient: data.frequencyCoefficient ?? 1.0
 }
 ```
@@ -128,6 +132,7 @@ const dbData: Record<string, any> = {
 ## 🧪 验证测试
 
 ### 构建验证
+
 ```bash
 ✅ pnpm run typecheck - 通过
 ✅ pnpm run build - 成功
@@ -136,6 +141,7 @@ const dbData: Record<string, any> = {
 ```
 
 ### 功能验证（待执行）
+
 1. 启动应用：`pnpm dev`
 2. 点击"测试创建知识点"
 3. 验证成功创建
@@ -150,6 +156,7 @@ const dbData: Record<string, any> = {
 **问题**: JSON序列化会改变数据类型（Date → number）
 
 **最佳实践**:
+
 - ✅ IPC传输使用基本类型（number, string, boolean）
 - ✅ 后端负责将基本类型转换为复杂类型（Date, Object）
 - ✅ 前端不应传递Date对象通过IPC
@@ -157,6 +164,7 @@ const dbData: Record<string, any> = {
 ### 2. 时间戳管理原则
 
 **最佳实践**:
+
 - ✅ 创建时间（createdAt）由后端自动生成
 - ✅ 更新时间（updatedAt）由后端自动更新
 - ✅ 前端不应手动设置系统时间戳
@@ -167,6 +175,7 @@ const dbData: Record<string, any> = {
 **问题**: 类型定义严格，但运行时数据可能不符合
 
 **改进**:
+
 - ✅ 添加运行时类型检查（typeof, instanceof）
 - ✅ 提供类型转换辅助函数
 - ✅ 容错处理（fallback到默认值）
@@ -176,6 +185,7 @@ const dbData: Record<string, any> = {
 **教训**: 手动验证发现了单元测试未覆盖的场景
 
 **改进计划**:
+
 - 🔜 添加IPC端到端测试
 - 🔜 测试真实的前端调用场景
 - 🔜 测试类型转换边界情况
@@ -185,15 +195,18 @@ const dbData: Record<string, any> = {
 ## 🔄 影响范围
 
 ### 修改文件
+
 1. `src/main/database/repositories/KnowledgeRepository.ts` - 后端修复
 2. `src/renderer/src/App.tsx` - 前端修复
 
 ### 受影响的功能
+
 - ✅ 创建知识点（修复）
 - ✅ 其他Knowledge操作（未受影响）
 - ✅ Review操作（未受影响）
 
 ### 回归测试清单
+
 - [ ] 创建知识点
 - [ ] 更新知识点
 - [ ] 删除知识点
@@ -223,4 +236,6 @@ const dbData: Record<string, any> = {
 **优先级**: P0  
 **修复人**: Dev Agent  
 **复查**: 待确认
+
+
 

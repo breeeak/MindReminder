@@ -16,6 +16,9 @@ export interface Knowledge {
   /** 标签数组 */
   tags: string[]
 
+  /** 分类ID */
+  category?: string
+
   /** 创建时间 */
   createdAt: Date
 
@@ -24,6 +27,24 @@ export interface Knowledge {
 
   /** 复习频率系数（默认1.0） */
   frequencyCoefficient: number
+
+  /** 掌握状态 */
+  masteryStatus?: string
+
+  /** 最后复习时间 */
+  lastReviewAt?: number
+
+  /** 下次复习时间 */
+  nextReviewAt?: number
+
+  /** 复习次数 */
+  reviewCount?: number
+
+  /** 掌握时间 */
+  masteredAt?: number
+
+  /** 同步状态 */
+  syncStatus?: string
 }
 
 /**
@@ -38,4 +59,3 @@ export type CreateKnowledgeInput = Omit<Knowledge, 'id' | 'createdAt' | 'updated
  * 更新知识点的输入类型（所有字段可选）
  */
 export type UpdateKnowledgeInput = Partial<Omit<Knowledge, 'id' | 'createdAt'>>
-

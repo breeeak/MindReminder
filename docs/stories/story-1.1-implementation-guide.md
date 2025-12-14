@@ -6,7 +6,7 @@
 **优先级**: P0 (最高)  
 **Story点数**: 5  
 **预计工时**: 4小时  
-**状态**: Ready for Review  
+**状态**: Ready for Review
 
 ---
 
@@ -33,6 +33,7 @@
 - `package.json` 包含Electron、React 18、TypeScript依赖
 
 **验证方法**：
+
 ```bash
 # 检查目录结构
 ls -la src/main src/renderer src/preload
@@ -49,6 +50,7 @@ cat package.json | grep -E "(electron|react|typescript)"
 **And** 热重载功能正常工作（修改代码后自动刷新）
 
 **验证方法**：
+
 ```bash
 # 安装依赖
 pnpm install
@@ -62,11 +64,13 @@ pnpm dev
 ### AC3: Ant Design集成
 
 **And** Ant Design已集成：
+
 - `package.json`包含`antd@5.x`依赖
 - 在`src/renderer/main.tsx`中能成功导入并使用Ant Design组件（如Button）
 - 主题配置文件已创建（`src/renderer/theme.ts`）
 
 **验证方法**：
+
 ```bash
 # 检查依赖
 cat package.json | grep antd
@@ -78,11 +82,13 @@ cat src/renderer/theme.ts
 ### AC4: TypeScript配置
 
 **And** TypeScript配置完整：
+
 - `tsconfig.json`配置严格模式（`strict: true`）
 - 包含路径别名配置（`@/*`指向`src/*`）
 - 编译无错误
 
 **验证方法**：
+
 ```bash
 # 检查TypeScript配置
 cat tsconfig.json | grep strict
@@ -95,11 +101,13 @@ pnpm build
 ### AC5: 项目文档
 
 **And** 项目根目录包含以下文档：
+
 - `README.md` - 项目说明和快速开始指南
 - `.gitignore` - 忽略node_modules、dist等
 - `package.json`中的scripts包含：dev、build、preview命令
 
 **验证方法**：
+
 ```bash
 # 检查文档文件
 cat README.md
@@ -118,6 +126,7 @@ cat package.json | grep -A 5 '"scripts"'
 **操作步骤**：
 
 1. **创建项目**
+
    ```bash
    npm create @quick-start/electron
    ```
@@ -129,6 +138,7 @@ cat package.json | grep -A 5 '"scripts"'
    - Package manager: `pnpm`
 
 3. **进入项目目录**
+
    ```bash
    cd MindReminder
    ```
@@ -139,6 +149,7 @@ cat package.json | grep -A 5 '"scripts"'
    ```
 
 **预期输出**：
+
 ```
 MindReminder/
 ├── src/
@@ -165,11 +176,13 @@ MindReminder/
 **操作步骤**：
 
 1. **安装依赖**
+
    ```bash
    pnpm install
    ```
 
 2. **启动开发服务器**
+
    ```bash
    pnpm dev
    ```
@@ -186,6 +199,7 @@ MindReminder/
    - 观察Electron窗口是否自动刷新并显示新文本
 
 **故障排除**：
+
 - 如果窗口未打开，检查终端错误日志
 - 如果热重载不工作，检查Vite配置
 - 如果端口冲突，修改 `electron.vite.config.ts` 中的端口设置
@@ -197,16 +211,19 @@ MindReminder/
 **操作步骤**：
 
 1. **安装Ant Design**
+
    ```bash
    pnpm add antd
    ```
 
 2. **创建主题配置文件**
+
    ```bash
    touch src/renderer/src/theme.ts
    ```
 
 3. **编辑 `src/renderer/src/theme.ts`**
+
    ```typescript
    import type { ThemeConfig } from 'antd'
 
@@ -214,17 +231,18 @@ MindReminder/
      token: {
        colorPrimary: '#1890ff',
        borderRadius: 8,
-       fontSize: 14,
+       fontSize: 14
      },
      components: {
        Button: {
-         controlHeight: 32,
-       },
-     },
+         controlHeight: 32
+       }
+     }
    }
    ```
 
 4. **修改 `src/renderer/src/main.tsx` 集成ConfigProvider**
+
    ```typescript
    import React from 'react'
    import ReactDOM from 'react-dom/client'
@@ -244,6 +262,7 @@ MindReminder/
    ```
 
 5. **修改 `src/renderer/src/App.tsx` 测试组件**
+
    ```typescript
    import { Button, Space } from 'antd'
 
@@ -264,9 +283,11 @@ MindReminder/
    ```
 
 6. **验证Ant Design工作正常**
+
    ```bash
    pnpm dev
    ```
+
    - 确认窗口显示Ant Design按钮
    - 按钮样式符合主题配置
 
@@ -277,6 +298,7 @@ MindReminder/
 **操作步骤**：
 
 1. **修改根目录的 `tsconfig.json`**
+
    ```json
    {
      "compilerOptions": {
@@ -305,6 +327,7 @@ MindReminder/
    ```
 
 2. **更新 `electron.vite.config.ts` 支持路径别名**
+
    ```typescript
    import { resolve } from 'path'
    import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
@@ -339,6 +362,7 @@ MindReminder/
    ```
 
 3. **验证TypeScript编译**
+
    ```bash
    # 应无错误输出
    pnpm build
@@ -356,7 +380,8 @@ MindReminder/
 **操作步骤**：
 
 1. **创建 `README.md`**
-   ```markdown
+
+   ````markdown
    # MindReminder
 
    基于间隔重复算法的智能复习桌面应用
@@ -378,21 +403,26 @@ MindReminder/
    ## 快速开始
 
    ### 安装依赖
+
    ```bash
    pnpm install
    ```
+   ````
 
    ### 启动开发服务器
+
    ```bash
    pnpm dev
    ```
 
    ### 构建生产版本
+
    ```bash
    pnpm build
    ```
 
    ### 预览生产版本
+
    ```bash
    pnpm preview
    ```
@@ -417,13 +447,11 @@ MindReminder/
    ```
 
    ## 开发规范
-
    - 遵循TypeScript严格模式
    - 使用ESLint和Prettier格式化代码
    - 提交前运行`pnpm build`确保编译通过
 
    ## 文档
-
    - [PRD文档](docs/prd.md)
    - [架构文档](docs/architecture.md)
    - [Epic和Stories](docs/stories/README.md)
@@ -431,9 +459,13 @@ MindReminder/
    ## License
 
    MIT
+
+   ```
+
    ```
 
 2. **更新 `.gitignore`**
+
    ```
    # Dependencies
    node_modules/
@@ -483,12 +515,14 @@ MindReminder/
 **验证清单**：
 
 - [ ] **AC1: 项目结构**
+
   ```bash
   # 检查目录存在
   test -d src/main && test -d src/renderer && test -d src/preload && echo "✅ 项目结构正确"
   ```
 
 - [ ] **AC2: 启动和热重载**
+
   ```bash
   # 启动开发服务器
   pnpm dev
@@ -496,6 +530,7 @@ MindReminder/
   ```
 
 - [ ] **AC3: Ant Design**
+
   ```bash
   # 检查依赖
   grep '"antd"' package.json && echo "✅ Ant Design已安装"
@@ -504,6 +539,7 @@ MindReminder/
   ```
 
 - [ ] **AC4: TypeScript**
+
   ```bash
   # 检查严格模式
   grep '"strict": true' tsconfig.json && echo "✅ TypeScript严格模式已启用"
@@ -523,6 +559,7 @@ MindReminder/
   ```
 
 **完整验收测试脚本**：
+
 ```bash
 #!/bin/bash
 
@@ -560,20 +597,24 @@ echo "========================================="
 ## 📊 Definition of Done
 
 ### 代码质量
+
 - [x] 所有Acceptance Criteria验证通过
 - [x] TypeScript编译无错误和警告
 - [x] 代码遵循项目命名规范
 - [x] 代码已提交到版本控制
 
 ### 测试要求
+
 - [x] 手动验收测试通过（启动、热重载、UI显示）
 - [x] 跨平台测试（Windows或macOS至少一个）
 
 ### 文档
+
 - [x] README.md创建并包含快速开始指南
 - [x] 代码注释清晰（如有复杂配置）
 
 ### 集成
+
 - [x] 应用可正常启动和运行
 - [x] 为下一个Story (1.2) 做好准备
 
@@ -582,14 +623,17 @@ echo "========================================="
 ## 🚧 依赖和前置条件
 
 ### 前置条件
+
 - Node.js 18+ 已安装
 - pnpm 8+ 已安装
 - Git 已安装
 
 ### 依赖的Story
+
 - 无（这是第一个Story）
 
 ### 阻塞的Story
+
 - Story 1.2 (SQLite数据库基础设施) 依赖本Story完成
 - Story 1.6 (Zustand状态管理基础) 依赖本Story完成
 
@@ -600,16 +644,19 @@ echo "========================================="
 ### 已知风险
 
 **R1: electron-vite版本兼容性**
+
 - **描述**: electron-vite可能与某些Node.js版本不兼容
 - **影响**: 中等
 - **缓解措施**: 使用Node.js 18 LTS，遵循官方文档
 
 **R2: pnpm phantom dependencies**
+
 - **描述**: pnpm的严格依赖隔离可能导致某些包找不到
 - **影响**: 低
 - **缓解措施**: 使用shamefully-hoist或在.npmrc中配置
 
 **R3: Ant Design样式问题**
+
 - **描述**: Ant Design在Electron中可能有样式加载问题
 - **影响**: 低
 - **缓解措施**: 确保正确导入CSS，使用ConfigProvider
@@ -617,12 +664,14 @@ echo "========================================="
 ### 技术决策
 
 **TD1: 为什么选择electron-vite而不是electron-forge或electron-builder？**
+
 - electron-vite提供更快的HMR
 - 内置TypeScript支持更好
 - 配置更简单直观
 - 社区活跃，文档完善
 
 **TD2: 为什么选择Ant Design？**
+
 - 组件库丰富，适合桌面应用
 - 中文文档完善
 - 主题定制灵活
@@ -633,6 +682,7 @@ echo "========================================="
 ## 🔗 相关资源
 
 ### 官方文档
+
 - [electron-vite官方文档](https://electron-vite.org/)
 - [Electron官方文档](https://www.electronjs.org/docs/latest/)
 - [React官方文档](https://react.dev/)
@@ -640,6 +690,7 @@ echo "========================================="
 - [TypeScript官方文档](https://www.typescriptlang.org/)
 
 ### 项目文档
+
 - [Epic 1详细文档](./epic-1-infrastructure.md)
 - [架构文档](../architecture.md)
 - [PRD文档](../prd.md)
@@ -650,6 +701,7 @@ echo "========================================="
 ## 📝 实施记录
 
 ### 开发日志
+
 - **开始日期**: 2025-12-13
 - **完成日期**: 2025-12-13
 - **实际工时**: 2小时
@@ -675,7 +727,7 @@ echo "========================================="
 
 4. ✅ Task 4: 配置TypeScript严格模式
    - tsconfig.json 启用 strict: true
-   - 配置路径别名 @/*, @main/*, @renderer/*, @preload/*
+   - 配置路径别名 @/_, @main/_, @renderer/_, @preload/_
    - electron.vite.config.ts 同步配置别名
    - 构建测试通过，无编译错误
 
@@ -694,6 +746,7 @@ echo "========================================="
 ### 创建的文件清单
 
 **配置文件：**
+
 - package.json
 - tsconfig.json
 - tsconfig.node.json
@@ -707,13 +760,16 @@ echo "========================================="
 - README.md
 
 **主进程代码：**
+
 - src/main/index.ts
 
 **预加载脚本：**
+
 - src/preload/index.ts
 - src/preload/index.d.ts
 
 **渲染进程代码：**
+
 - src/renderer/index.html
 - src/renderer/src/main.tsx
 - src/renderer/src/App.tsx
@@ -724,6 +780,7 @@ echo "========================================="
 - src/renderer/src/components/Versions.tsx
 
 **资源文件：**
+
 - resources/icon.png
 - build/icon.png
 - build/icon.ico
@@ -733,31 +790,36 @@ echo "========================================="
 ### 技术决策
 
 **TD1: 手动创建项目结构而非使用交互式脚手架**
+
 - **原因**: npm create 脚手架需要交互式输入，不适合自动化
 - **决策**: 手动创建标准的 electron-vite 项目结构
 - **影响**: 完全符合 electron-vite 最佳实践，配置更可控
 
 **TD2: 使用 Ant Design 5 最新稳定版**
+
 - **版本**: antd@5.22.5
 - **原因**: 提供完整的 React 18 支持和最佳性能
 - **配置**: 使用 ConfigProvider 配置主题和中文语言包
 
 **TD3: TypeScript 严格模式配置**
+
 - **strict**: true - 启用所有严格类型检查
-- **路径别名**: 配置 @/*, @main/*, @renderer/*, @preload/*
+- **路径别名**: 配置 @/_, @main/_, @renderer/_, @preload/_
 - **影响**: 提高代码质量，减少运行时错误
 
 ### 验证结果
 
 ✅ **构建测试通过：**
+
 ```
 pnpm build
 ✓ main built in 128ms
-✓ preload built in 14ms  
+✓ preload built in 14ms
 ✓ renderer built in 3.97s
 ```
 
 ✅ **所有验收标准满足：**
+
 - AC1: 项目结构完整 ✅
 - AC2: 依赖安装和启动成功 ✅
 - AC3: Ant Design 集成 ✅
@@ -765,6 +827,7 @@ pnpm build
 - AC5: 项目文档完整 ✅
 
 ✅ **代码审查通过：**
+
 - 所有HIGH和MEDIUM问题已修复
 - .gitignore 配置完整
 - .npmrc 配置优化
@@ -773,6 +836,7 @@ pnpm build
 - package.json scripts完整
 
 ### 后续建议
+
 - Story 1.2 可以立即开始（SQLite 数据库基础设施）
 - 当前项目骨架为所有后续开发提供了坚实基础
 
@@ -782,4 +846,3 @@ pnpm build
 **创建者**: Scrum Master  
 **状态**: ✅ 就绪可实施  
 **下一步**: 分配给开发者并开始实施
-

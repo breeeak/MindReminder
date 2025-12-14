@@ -23,12 +23,12 @@ export function getDatabasePath(): string {
 export function getBackupPath(): string {
   const appDataPath = getAppDataPath()
   const backupPath = path.join(appDataPath, 'backups')
-  
+
   // 确保备份目录存在
   if (!fs.existsSync(backupPath)) {
     fs.mkdirSync(backupPath, { recursive: true })
   }
-  
+
   return backupPath
 }
 
@@ -38,12 +38,12 @@ export function getBackupPath(): string {
 export function getLogPath(): string {
   const appDataPath = getAppDataPath()
   const logPath = path.join(appDataPath, 'logs')
-  
+
   // 确保日志目录存在
   if (!fs.existsSync(logPath)) {
     fs.mkdirSync(logPath, { recursive: true })
   }
-  
+
   return logPath
 }
 
@@ -71,4 +71,3 @@ export function getPlatformPaths() {
     logs: app.getPath('logs')
   }
 }
-

@@ -21,9 +21,7 @@ export function toCamelCase(str: string): string {
 /**
  * 将对象的键从 camelCase 转换为 snake_case
  */
-export function objectToSnakeCase<T extends Record<string, any>>(
-  obj: T
-): Record<string, any> {
+export function objectToSnakeCase<T extends Record<string, any>>(obj: T): Record<string, any> {
   const result: Record<string, any> = {}
   for (const [key, value] of Object.entries(obj)) {
     result[toSnakeCase(key)] = value
@@ -34,9 +32,7 @@ export function objectToSnakeCase<T extends Record<string, any>>(
 /**
  * 将对象的键从 snake_case 转换为 camelCase
  */
-export function objectToCamelCase<T extends Record<string, any>>(
-  obj: T
-): Record<string, any> {
+export function objectToCamelCase<T extends Record<string, any>>(obj: T): Record<string, any> {
   const result: Record<string, any> = {}
   for (const [key, value] of Object.entries(obj)) {
     result[toCamelCase(key)] = value
@@ -47,7 +43,7 @@ export function objectToCamelCase<T extends Record<string, any>>(
 /**
  * BaseRepository抽象类
  * 提供通用的CRUD操作和数据库访问基础设施
- * 
+ *
  * @template T 实体类型
  */
 export abstract class BaseRepository<T extends { id: string }> {
@@ -119,7 +115,7 @@ export abstract class BaseRepository<T extends { id: string }> {
     try {
       // 生成UUID
       const id = randomUUID()
-      
+
       log.debug(`[${this.tableName}] Creating record with id=${id}:`, data)
 
       // 转换为snake_case
@@ -218,7 +214,7 @@ export abstract class BaseRepository<T extends { id: string }> {
   /**
    * 将数据库行映射为实体对象
    * 子类可以重写此方法以实现自定义映射逻辑
-   * 
+   *
    * @param row 数据库行（snake_case）
    * @returns 实体对象（camelCase）
    */
@@ -230,7 +226,7 @@ export abstract class BaseRepository<T extends { id: string }> {
   /**
    * 将实体对象映射为数据库行
    * 子类可以重写此方法以实现自定义映射逻辑
-   * 
+   *
    * @param entity 实体对象（camelCase）
    * @returns 数据库行（snake_case）
    */
@@ -239,4 +235,3 @@ export abstract class BaseRepository<T extends { id: string }> {
     return objectToSnakeCase(entity as Record<string, any>)
   }
 }
-

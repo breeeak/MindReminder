@@ -2,7 +2,16 @@
 project_name: 'MindReminder'
 user_name: 'Administrator'
 date: '2025-12-13'
-sections_completed: ['technology_stack', 'language_rules', 'framework_rules', 'testing_rules', 'code_quality', 'workflow_rules', 'anti_patterns']
+sections_completed:
+  [
+    'technology_stack',
+    'language_rules',
+    'framework_rules',
+    'testing_rules',
+    'code_quality',
+    'workflow_rules',
+    'anti_patterns'
+  ]
 status: 'complete'
 rule_count: 85
 optimized_for_llm: true
@@ -20,11 +29,13 @@ _这个文件包含AI代理在实施代码时必须遵循的关键规则和模�
 ### 核心技术栈
 
 **应用框架：**
+
 - Electron（最新稳定版）- 跨平台桌面应用
 - electron-vite v5.0.0 - 构建工具
 - Electron Builder - 打包工具
 
 **前端技术：**
+
 - React 18 - UI框架
 - TypeScript 5+ - 启用严格模式
 - Vite 5+ - 开发服务器和构建
@@ -33,6 +44,7 @@ _这个文件包含AI代理在实施代码时必须遵循的关键规则和模�
 - react-window - 虚拟滚动
 
 **数据与工具：**
+
 - better-sqlite3 - SQLite数据库（⚠️ 仅主进程）
 - dayjs - 日期处理
 - uuid - 唯一ID生成
@@ -40,6 +52,7 @@ _这个文件包含AI代理在实施代码时必须遵循的关键规则和模�
 - Vitest + @testing-library/react - 测试框架
 
 **包管理：**
+
 - pnpm - 包管理器（必须使用）
 
 ### 关键版本约束
@@ -58,6 +71,7 @@ _这个文件包含AI代理在实施代码时必须遵循的关键规则和模�
 #### 进程分离原则
 
 **✅ 主进程（Main Process）职责：**
+
 - SQLite 数据库操作（⚠️ 唯一允许的位置）
 - 文件系统操作
 - 窗口管理（创建、关闭、状态）
@@ -66,17 +80,20 @@ _这个文件包含AI代理在实施代码时必须遵循的关键规则和模�
 - 定时任务（备份、复习提醒）
 
 **✅ 渲染进程（Renderer Process）职责：**
+
 - React UI 渲染
 - 用户交互处理
 - Zustand 状态管理
 - UI 计算和缓存（如热力图颜色）
 
 **✅ 预加载脚本（Preload Script）职责：**
+
 - Context Bridge API 定义
 - IPC 通信桥接
 - 类型安全的 API 暴露
 
 **❌ 严格禁止：**
+
 - ❌ 渲染进程直接访问 Node.js API
 - ❌ 渲染进程直接操作文件系统
 - ❌ 渲染进程直接使用 better-sqlite3
@@ -85,6 +102,7 @@ _这个文件包含AI代理在实施代码时必须遵循的关键规则和模�
 #### IPC 通信规则
 
 **命名约定（强制）：**
+
 ```typescript
 // ✅ 正确：格式为 {实体}:{操作}
 ipcMain.handle('knowledge:create', ...)
@@ -97,6 +115,7 @@ ipcMain.handle('get-all-knowledge', ...)
 ```
 
 **响应格式（强制）：**
+
 ```typescript
 // ✅ 成功：返回 { data: T }
 return { data: knowledge }
@@ -115,6 +134,7 @@ return { error: 'something failed' }
 #### 类型定义（强制）
 
 **✅ 必须遵守：**
+
 ```typescript
 // ✅ 禁用 any，使用 unknown
 function process(data: unknown) {
@@ -137,9 +157,10 @@ export interface Knowledge {
 ```
 
 **❌ 严格禁止：**
+
 ```typescript
 // ❌ 不要使用 any
-function process(data: any) { }
+function process(data: any) {}
 
 // ❌ 不要忽略 null 检查
 const knowledge = findKnowledge(id)
@@ -175,6 +196,7 @@ import './styles/global.css'
 #### 数据库命名
 
 **✅ 强制规则：**
+
 - 表名：`snake_case`，单数形式（`knowledge`, `review_history`）
 - 列名：`snake_case`（`created_at`, `next_review_at`）
 - 主键：统一命名为 `id`
@@ -186,6 +208,7 @@ import './styles/global.css'
 #### TypeScript 命名
 
 **✅ 强制规则：**
+
 ```typescript
 // 变量和函数：camelCase
 const knowledgeList = []
@@ -210,33 +233,38 @@ type ReviewResult = {}
 #### Repository 层命名转换（关键！）
 
 **✅ 必须在 Repository 层进行转换：**
+
 ```typescript
 class KnowledgeRepository {
   findById(id: string): Knowledge | null {
     const row = this.db.prepare('SELECT * FROM knowledge WHERE id = ?').get(id)
     if (!row) return null
-    
+
     // ✅ 转换命名：snake_case → camelCase
     return {
       id: row.id,
       title: row.title,
-      createdAt: row.created_at,        // snake_case → camelCase
+      createdAt: row.created_at, // snake_case → camelCase
       nextReviewAt: row.next_review_at,
-      reviewCount: row.review_count,
+      reviewCount: row.review_count
     }
   }
-  
+
   save(knowledge: Knowledge): void {
     // ✅ 转换命名：camelCase → snake_case
-    this.db.prepare(`
+    this.db
+      .prepare(
+        `
       INSERT INTO knowledge (id, title, created_at, next_review_at)
       VALUES (?, ?, ?, ?)
-    `).run(
-      knowledge.id,
-      knowledge.title,
-      knowledge.createdAt,        // camelCase → snake_case
-      knowledge.nextReviewAt
-    )
+    `
+      )
+      .run(
+        knowledge.id,
+        knowledge.title,
+        knowledge.createdAt, // camelCase → snake_case
+        knowledge.nextReviewAt
+      )
   }
 }
 ```
@@ -248,6 +276,7 @@ class KnowledgeRepository {
 #### SQL 安全（强制）
 
 **✅ 必须使用参数化查询：**
+
 ```typescript
 // ✅ 正确：参数化查询
 db.prepare('SELECT * FROM knowledge WHERE title = ?').get(title)
@@ -259,6 +288,7 @@ db.prepare(`SELECT * FROM knowledge WHERE title = '${title}'`).get()
 #### 事务管理（强制）
 
 **✅ 所有写操作必须使用事务：**
+
 ```typescript
 // ✅ 正确
 save(knowledge: Knowledge): void {
@@ -279,6 +309,7 @@ save(knowledge: Knowledge): void {
 #### 数据访问边界（强制）
 
 **✅ 分层架构：**
+
 ```
 渲染进程 UI
     ↓ window.api.knowledge.create(data)
@@ -294,6 +325,7 @@ SQLite 数据库
 ```
 
 **❌ 严格禁止：**
+
 - ❌ Service 层直接写 SQL
 - ❌ IPC Handler 直接操作数据库
 - ❌ 跨层调用（如 UI 直接调用 Repository）
@@ -305,12 +337,13 @@ SQLite 数据库
 #### Zustand Store 规则（强制）
 
 **✅ Store 组织：**
+
 ```typescript
 // ✅ 正确：命名导出 + use 前缀
 export const useKnowledgeStore = create<KnowledgeStore>((set, get) => ({
   knowledgeList: [],
   loading: false,
-  
+
   fetchKnowledgeList: async () => {
     set({ loading: true })
     try {
@@ -328,11 +361,12 @@ export default create(...)
 ```
 
 **✅ Store 使用（选择性订阅）：**
+
 ```typescript
 // ✅ 正确：选择性订阅
 function KnowledgeList() {
-  const knowledgeList = useKnowledgeStore(state => state.knowledgeList)
-  const loading = useKnowledgeStore(state => state.loading)
+  const knowledgeList = useKnowledgeStore((state) => state.knowledgeList)
+  const loading = useKnowledgeStore((state) => state.loading)
   // ...
 }
 
@@ -346,6 +380,7 @@ function KnowledgeList() {
 #### 异步状态管理（强制）
 
 **✅ 统一的异步状态模式：**
+
 ```typescript
 interface AsyncState<T> {
   data: T | null
@@ -369,6 +404,7 @@ set({ knowledgeList: { data: null, loading: false, error } })
 #### 性能优化（强制）
 
 **✅ 必须使用的优化：**
+
 ```typescript
 // ✅ React.memo：优化组件渲染
 export const KnowledgeCard = React.memo(({ knowledge }) => {
@@ -402,6 +438,7 @@ if (items.length > 50) {
 #### 自定义错误类
 
 **✅ 使用自定义错误类：**
+
 ```typescript
 // src/main/utils/errors.ts
 export class AppError extends Error {
@@ -431,6 +468,7 @@ export class ValidationError extends AppError {
 #### 错误处理流程（强制）
 
 **✅ 主进程：**
+
 ```typescript
 ipcMain.handle('knowledge:create', async (event, data) => {
   try {
@@ -438,15 +476,14 @@ ipcMain.handle('knowledge:create', async (event, data) => {
     if (!data.title) {
       throw new ValidationError('Title is required', '标题不能为空')
     }
-    
+
     // 业务逻辑
     const knowledge = await knowledgeService.create(data)
     return { data: knowledge }
-    
   } catch (error) {
     // 记录日志
     log.error('Failed to create knowledge:', error)
-    
+
     // 抛出错误（渲染进程捕获）
     throw error
   }
@@ -454,6 +491,7 @@ ipcMain.handle('knowledge:create', async (event, data) => {
 ```
 
 **✅ 渲染进程：**
+
 ```typescript
 async function handleCreate() {
   try {
@@ -466,7 +504,7 @@ async function handleCreate() {
     } else {
       message.error('操作失败，请重试')
     }
-    
+
     // 记录到控制台
     console.error('Create knowledge failed:', error)
   }
@@ -474,6 +512,7 @@ async function handleCreate() {
 ```
 
 **❌ 严格禁止：**
+
 ```typescript
 // ❌ 吞掉错误
 try {
@@ -486,7 +525,7 @@ try {
 try {
   await api.call()
 } catch (e) {
-  throw e  // 应该先 log.error()
+  throw e // 应该先 log.error()
 }
 ```
 
@@ -497,6 +536,7 @@ try {
 #### 日志级别使用
 
 **✅ 正确使用：**
+
 ```typescript
 // debug：开发调试
 log.debug('Detailed debug info', { data })
@@ -514,6 +554,7 @@ log.error('Error occurred', { error })
 #### 日志格式（强制）
 
 **✅ 结构化日志：**
+
 ```typescript
 // ✅ 正确：结构化对象
 log.info('Knowledge created', {
@@ -533,6 +574,7 @@ log.info('Knowledge ' + knowledge.id + ' created by ' + user.id)
 #### 测试覆盖要求（强制）
 
 **✅ 覆盖率要求：**
+
 - 核心算法（间隔重复算法）：**100%** 覆盖
 - Repository 层：**>80%** 覆盖
 - Service 层：**>80%** 覆盖
@@ -541,6 +583,7 @@ log.info('Knowledge ' + knowledge.id + ' created by ' + user.id)
 #### 测试文件组织（强制）
 
 **✅ 测试文件与源文件同目录：**
+
 ```
 src/main/algorithm/
 ├── SpacedRepetition.ts
@@ -562,6 +605,7 @@ src/main/database/repositories/
 #### 响应时间要求
 
 **✅ 必须满足：**
+
 - 冷启动：≤ 3秒
 - 热启动：≤ 1秒
 - UI 响应：≤ 200ms
@@ -571,6 +615,7 @@ src/main/database/repositories/
 #### 资源限制
 
 **✅ 必须满足：**
+
 - 内存占用：≤ 300MB
 - CPU 空闲：≤ 5%
 - 包体积：≤ 150MB
@@ -578,6 +623,7 @@ src/main/database/repositories/
 #### 性能优化策略
 
 **✅ 必须使用：**
+
 - 列表 >50 项：使用 react-window 虚拟滚动
 - 重计算：使用 useMemo 缓存
 - 重渲染：使用 React.memo
@@ -591,9 +637,10 @@ src/main/database/repositories/
 #### 统一格式
 
 **✅ 存储格式：**
+
 ```typescript
 // ✅ 数据库：Unix 时间戳（INTEGER，毫秒）
-knowledge.created_at = Date.now()  // 1702450800000
+knowledge.created_at = Date.now() // 1702450800000
 
 // ✅ IPC 传输：Unix 时间戳（number）
 return { data: { createdAt: Date.now() } }
@@ -604,6 +651,7 @@ const displayDate = dayjs(knowledge.createdAt).format('YYYY-MM-DD HH:mm')
 ```
 
 **❌ 严格禁止：**
+
 ```typescript
 // ❌ 不要使用 ISO 字符串
 knowledge.created_at = new Date().toISOString()
@@ -619,12 +667,13 @@ knowledge.created_at = new Date()
 #### 数据库反模式
 
 **❌ 禁止：**
+
 ```typescript
 // ❌ 裸 SQL（SQL 注入风险）
 db.prepare(`SELECT * FROM knowledge WHERE title = '${title}'`).get()
 
 // ❌ 渲染进程使用 better-sqlite3
-import Database from 'better-sqlite3'  // 在渲染进程中
+import Database from 'better-sqlite3' // 在渲染进程中
 
 // ❌ 没有事务的写操作
 db.prepare('INSERT...').run()
@@ -634,6 +683,7 @@ db.prepare('INSERT...').run()
 #### 状态管理反模式
 
 **❌ 禁止：**
+
 ```typescript
 // ❌ 直接修改状态
 knowledgeList.push(newKnowledge)
@@ -645,13 +695,14 @@ const store = useKnowledgeStore()
 #### 类型定义反模式
 
 **❌ 禁止：**
+
 ```typescript
 // ❌ 使用 any
-function process(data: any) { }
+function process(data: any) {}
 
 // ❌ 忽略 null 检查
 const knowledge = findKnowledge(id)
-console.log(knowledge.title)  // 可能崩溃
+console.log(knowledge.title) // 可能崩溃
 ```
 
 ---
@@ -661,6 +712,7 @@ console.log(knowledge.title)  // 可能崩溃
 #### 路径处理
 
 **✅ 必须使用：**
+
 ```typescript
 import path from 'path'
 import { app } from 'electron'
@@ -669,12 +721,13 @@ import { app } from 'electron'
 const dbPath = path.join(app.getPath('userData'), 'database.db')
 
 // ❌ 错误：硬编码路径
-const dbPath = 'C:\\Users\\...'  // Windows only
+const dbPath = 'C:\\Users\\...' // Windows only
 ```
 
 #### 快捷键映射
 
 **✅ 平台检测：**
+
 ```typescript
 import { platform } from 'os'
 
@@ -707,17 +760,20 @@ const shortcut = `${modifier}+N`
 ## 实施优先级
 
 ### Phase 1: 基础设施（第一优先级）
+
 1. 项目初始化（Story 0）
 2. 数据库表结构
 3. Repository 层实现
 4. IPC 接口定义
 
 ### Phase 2: 核心功能
+
 5. 间隔重复算法
 6. 知识点 CRUD
 7. 复习流程
 
 ### Phase 3: UI 与完善
+
 8. 日历视图
 9. 日记和提醒
 10. 统计和设置
@@ -731,12 +787,14 @@ const shortcut = `${modifier}+N`
 ### 致 AI 代理：
 
 **📖 实施前必读：**
+
 1. ✅ 阅读本文件和 `docs/architecture.md`
 2. ✅ 严格遵守所有规则（特别是标记为"强制"的）
 3. ✅ 遇到疑问时，选择更严格的选项
 4. ✅ 发现新模式时，更新本文件
 
 **🎯 核心原则：**
+
 - **零容忍：** better-sqlite3 只能在主进程使用
 - **类型安全：** 禁用 `any`，使用 `unknown`
 - **命名约定：** 数据库 snake_case，TypeScript camelCase
@@ -750,18 +808,21 @@ const shortcut = `${modifier}+N`
 ### 致开发者：
 
 **📋 维护建议：**
+
 - 保持文件精简，专注于 AI 可能忽略的细节
 - 技术栈变更时及时更新
 - 每季度审查并移除过时或显而易见的规则
 - 发现新的反模式时立即记录
 
 **🔄 更新触发条件：**
+
 - 添加新技术依赖
 - 发现 AI 代理的常见错误
 - 架构决策变更
 - 新的性能优化策略
 
 **📊 当前状态：**
+
 - 规则数量：85条
 - 最后更新：2025-12-13
 - 覆盖领域：13个关键类别
@@ -772,6 +833,7 @@ const shortcut = `${modifier}+N`
 ## 参考文档
 
 **📚 完整文档链接：**
+
 - 🏗️ 架构决策：`docs/architecture.md` (3088行)
 - 📋 产品需求：`docs/prd.md` (72个FR + NFR)
 - 🎨 UX 设计：`docs/ux-design-specification.md`

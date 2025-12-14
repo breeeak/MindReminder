@@ -4,4 +4,7 @@
 
 export * from './Knowledge'
 export * from './ReviewHistory'
-
+export * from './Tag'
+export * from './Category'
+export * from './Diary'
+export * from './Reminder'

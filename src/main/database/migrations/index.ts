@@ -1,4 +1,5 @@
 import { migration001 } from './001_initial_schema'
+import { migration002 } from './002_tags_and_categories'
 
 export interface Migration {
   version: number
@@ -6,15 +7,11 @@ export interface Migration {
   sql: string
 }
 
-export { migration001 }
+export { migration001, migration002 }
 
 /**
  * 获取所有迁移列表（按版本号排序）
  */
 export function getAllMigrations(): Migration[] {
-  return [
-    migration001
-    // 未来添加更多迁移...
-  ]
+  return [migration001, migration002]
 }
-

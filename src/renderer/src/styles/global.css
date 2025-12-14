@@ -1,0 +1,145 @@
+/**
+ * 全局样式
+ * 实现视觉温暖化元素和动画效果
+ */
+
+/* 全局字体 */
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Noto Sans SC',
+    'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* 平滑过渡动画 - 应用到所有元素 */
+* {
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+}
+
+/* 主题切换动画加长 */
+.ant-layout,
+.ant-layout-header,
+.ant-layout-sider,
+.ant-layout-content {
+  transition:
+    background-color 0.3s ease-in-out,
+    color 0.3s ease-in-out;
+}
+
+/* 按钮圆角和阴影 */
+.ant-btn {
+  border-radius: 4px;
+}
+
+/* 移除主按钮阴影 */
+.ant-btn-primary {
+  box-shadow: none !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  box-shadow: none !important;
+}
+
+/* 卡片圆角和阴影 */
+.ant-card {
+  border-radius: 6px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* 深色模式下卡片阴影 */
+html[data-theme='dark'] .ant-card {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* 输入框圆角 */
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-input-number,
+.ant-select-selector {
+  border-radius: 4px;
+}
+
+/* Modal 圆角 */
+.ant-modal-content {
+  border-radius: 8px;
+}
+
+/* 菜单项高亮效果 */
+.ant-menu-item-selected {
+  font-weight: 500;
+}
+
+/* Sider 平滑展开/收起 */
+.ant-layout-sider {
+  transition: all 0.2s ease-in-out;
+}
+
+/* 禁用文本选择（UI元素） */
+.ant-btn,
+.ant-menu-item,
+.ant-tabs-tab {
+  user-select: none;
+}
+
+/* 滚动条样式（仅 Webkit 浏览器/Electron） */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* 深色模式滚动条 */
+html[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+html[data-theme='dark'] ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* 加载动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 响应式布局 - 小屏幕优化 */
+@media (max-width: 1280px) {
+  .ant-layout-header {
+    padding: 0 16px;
+  }
+
+  .ant-layout-content {
+    padding: 16px;
+  }
+}
+

@@ -1,6 +1,6 @@
 /**
  * 复习算法验证脚本
- * 
+ *
  * 验证算法在真实场景下的计算准确性
  */
 
@@ -53,9 +53,7 @@ const baseReviewDate = new Date('2025-01-01')
 const frequencies = [0.5, 0.8, 1.0, 1.2, 1.5]
 frequencies.forEach((freq) => {
   const nextDate = SpacedRepetitionAlgorithm.calculateNextReviewDate(baseReviewDate, 3, 3, freq)
-  const days = Math.round(
-    (nextDate.getTime() - baseReviewDate.getTime()) / (1000 * 60 * 60 * 24)
-  )
+  const days = Math.round((nextDate.getTime() - baseReviewDate.getTime()) / (1000 * 60 * 60 * 24))
   console.log(`  频率系数${freq}: 间隔${days}天 (基础4天 × 1.0 × ${freq} = ${4 * freq}天)`)
 })
 console.log()
@@ -85,4 +83,3 @@ console.log('=== 验证完成 ===')
 console.log('✅ 所有场景计算正确')
 console.log('✅ 边界条件处理正常')
 console.log('✅ 日期跨月跨年准确')
-

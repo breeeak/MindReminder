@@ -83,4 +83,3 @@ INSERT OR IGNORE INTO settings (key, value, updated_at) VALUES
   ('theme', 'light', strftime('%s', 'now') * 1000);
   `
 }
-

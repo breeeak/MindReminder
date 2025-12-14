@@ -15,120 +15,119 @@
 #   - {file-path}: File created/found (e.g., "docs/product-brief.md")
 #   - skipped: Optional/conditional workflow that was skipped
 
-generated: "2025-12-13"
-project: "MindReminder"
-project_type: "greenfield"
-selected_track: "method"
-field_type: "greenfield"
-workflow_path: "method-greenfield.yaml"
+generated: '2025-12-13'
+project: 'MindReminder'
+project_type: 'greenfield'
+selected_track: 'method'
+field_type: 'greenfield'
+workflow_path: 'method-greenfield.yaml'
 workflow_status:
   # Phase 0: Discovery (Optional)
   - phase: 0
-    phase_name: "Discovery (Optional)"
+    phase_name: 'Discovery (Optional)'
     workflows:
-      - id: "brainstorm-project"
-        name: "Brainstorm"
-        status: "skipped"
-        agent: "analyst"
-        command: "brainstorming-session"
+      - id: 'brainstorm-project'
+        name: 'Brainstorm'
+        status: 'skipped'
+        agent: 'analyst'
+        command: 'brainstorming-session'
         optional: true
-        
-      - id: "research"
-        name: "Research"
-        status: "skipped"
-        agent: "analyst"
-        command: "research"
+
+      - id: 'research'
+        name: 'Research'
+        status: 'skipped'
+        agent: 'analyst'
+        command: 'research'
         optional: true
-        
-      - id: "product-brief"
-        name: "Product Brief"
-        status: "completed"
-        agent: "analyst"
-        command: "create-product-brief"
+
+      - id: 'product-brief'
+        name: 'Product Brief'
+        status: 'completed'
+        agent: 'analyst'
+        command: 'create-product-brief'
         optional: true
-        output: "docs/analysis/product-brief-MindReminder-2025-12-13.md"
-        completed: "2025-12-13"
-        note: "Strategic product planning - recommended for greenfield"
+        output: 'docs/analysis/product-brief-MindReminder-2025-12-13.md'
+        completed: '2025-12-13'
+        note: 'Strategic product planning - recommended for greenfield'
 
   # Phase 1: Planning
   - phase: 1
-    phase_name: "Planning"
+    phase_name: 'Planning'
     workflows:
-      - id: "prd"
-        name: "Product Requirements Document"
-        status: "completed"
-        agent: "pm"
-        command: "create-prd"
-        output: "docs/prd.md"
-        completed: "2025-12-13"
-        note: "Product Requirements Document with FRs and NFRs"
-        
-      - id: "create-ux-design"
-        name: "UX Design"
-        status: "completed"
-        agent: "ux-designer"
-        command: "create-ux-design"
-        condition: "if_has_ui"
-        output: "docs/ux-design-specification.md"
-        completed: "2025-12-13"
-        note: "Determined after PRD - user/agent decides if needed"
+      - id: 'prd'
+        name: 'Product Requirements Document'
+        status: 'completed'
+        agent: 'pm'
+        command: 'create-prd'
+        output: 'docs/prd.md'
+        completed: '2025-12-13'
+        note: 'Product Requirements Document with FRs and NFRs'
+
+      - id: 'create-ux-design'
+        name: 'UX Design'
+        status: 'completed'
+        agent: 'ux-designer'
+        command: 'create-ux-design'
+        condition: 'if_has_ui'
+        output: 'docs/ux-design-specification.md'
+        completed: '2025-12-13'
+        note: 'Determined after PRD - user/agent decides if needed'
 
   # Phase 2: Solutioning
   - phase: 2
-    phase_name: "Solutioning"
+    phase_name: 'Solutioning'
     workflows:
-      - id: "create-architecture"
-        name: "Architecture"
-        status: "completed"
-        agent: "architect"
-        command: "create-architecture"
-        output: "docs/architecture.md"
-        completed: "2025-12-13"
-        note: "Complete system design for greenfield projects"
-        
-      - id: "create-epics-and-stories"
-        name: "Epics and Stories"
-        status: "completed"
-        agent: "pm"
-        command: "create-epics-stories"
-        output: "docs/stories/"
-        completed: "2025-12-13"
-        note: "5 Epics, 26 Stories, 100% FR coverage"
-        
-      - id: "test-design"
-        name: "Test Design"
-        status: "recommended"
-        agent: "tea"
-        command: "testarch-test-design"
+      - id: 'create-architecture'
+        name: 'Architecture'
+        status: 'completed'
+        agent: 'architect'
+        command: 'create-architecture'
+        output: 'docs/architecture.md'
+        completed: '2025-12-13'
+        note: 'Complete system design for greenfield projects'
+
+      - id: 'create-epics-and-stories'
+        name: 'Epics and Stories'
+        status: 'completed'
+        agent: 'pm'
+        command: 'create-epics-stories'
+        output: 'docs/stories/'
+        completed: '2025-12-13'
+        note: '5 Epics, 26 Stories, 100% FR coverage'
+
+      - id: 'test-design'
+        name: 'Test Design'
+        status: 'recommended'
+        agent: 'tea'
+        command: 'testarch-test-design'
         output: null
-        note: "Testability assessment before gate check"
-        
-      - id: "validate-architecture"
-        name: "Validate Architecture"
-        status: "optional"
-        agent: "architect"
-        command: "validate-architecture"
+        note: 'Testability assessment before gate check'
+
+      - id: 'validate-architecture'
+        name: 'Validate Architecture'
+        status: 'optional'
+        agent: 'architect'
+        command: 'validate-architecture'
         output: null
-        note: "Quality check for architecture completeness"
-        
-      - id: "implementation-readiness"
-        name: "Implementation Readiness"
-        status: "required"
-        agent: "architect"
-        command: "check-implementation-readiness"
+        note: 'Quality check for architecture completeness'
+
+      - id: 'implementation-readiness'
+        name: 'Implementation Readiness'
+        status: 'required'
+        agent: 'architect'
+        command: 'check-implementation-readiness'
         output: null
-        note: "Validates PRD + Architecture + Epics + UX (optional)"
+        note: 'Validates PRD + Architecture + Epics + UX (optional)'
 
   # Phase 3: Implementation
   - phase: 3
-    phase_name: "Implementation"
+    phase_name: 'Implementation'
     workflows:
-      - id: "sprint-planning"
-        name: "Sprint Planning"
-        status: "completed"
-        agent: "sm"
-        command: "sprint-planning"
-        output: "docs/sprint-artifacts/sprint-1-plan.md"
-        completed: "2025-12-13"
-        note: "Sprint 1 plan created - tracking in sprint-status.yaml"
-
+      - id: 'sprint-planning'
+        name: 'Sprint Planning'
+        status: 'completed'
+        agent: 'sm'
+        command: 'sprint-planning'
+        output: 'docs/sprint-artifacts/sprint-1-plan.md'
+        completed: '2025-12-13'
+        note: 'Sprint 1 plan created - tracking in sprint-status.yaml'

@@ -5,9 +5,18 @@ import icon from '../../resources/icon.png?asset'
 import { getDatabaseService } from './database/DatabaseService'
 import { validateDatabaseSchema } from './database/validateSchema'
 import { AppError } from './utils/errors'
-import { initRepositories, getKnowledgeRepository, getReviewRepository } from './database/repositories'
+import {
+  initRepositories,
+  getKnowledgeRepository,
+  getReviewRepository,
+  getReminderRepository
+} from './database/repositories'
 import log from './utils/logger'
 import { registerAllHandlers } from './ipc'
+import { ReminderScheduler } from './services/ReminderScheduler'
+
+// 全局提醒调度器实例
+let reminderScheduler: ReminderScheduler | null = null
 
 function createWindow(): void {
   // Create the browser window.
@@ -20,8 +29,8 @@ function createWindow(): void {
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       sandbox: false,
-      contextIsolation: true,  // ✅ 启用context isolation
-      nodeIntegration: false,  // ✅ 禁用node integration
+      contextIsolation: true, // ✅ 启用context isolation
+      nodeIntegration: false // ✅ 禁用node integration
     }
   })
 
@@ -48,13 +57,13 @@ function createWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   log.info('App is ready, initializing...')
-  
+
   // 初始化数据库
   try {
     log.info('Initializing database...')
     const dbService = getDatabaseService()
     dbService.initialize()
-    
+
     // 验证数据库结构
     const isValid = validateDatabaseSchema()
     if (!isValid) {
@@ -72,22 +81,29 @@ app.whenReady().then(() => {
     registerAllHandlers()
     log.info('IPC handlers registered successfully')
 
+    // 启动提醒调度器
+    log.info('Starting reminder scheduler...')
+    const reminderRepo = getReminderRepository()
+    reminderScheduler = new ReminderScheduler(reminderRepo)
+    reminderScheduler.start()
+    log.info('Reminder scheduler started successfully')
+
     // 运行测试（仅在开发环境）
     if (is.dev) {
       testRepositories()
     }
   } catch (error) {
     log.error('Failed to initialize app:', error)
-    
+
     // 显示用户友好的错误对话框
     let errorMessage = '数据库初始化失败，请重启应用或联系技术支持。'
-    
+
     if (error instanceof AppError) {
       errorMessage = error.userMessage
     }
-    
+
     dialog.showErrorBox('数据库错误', errorMessage)
-    
+
     // 严重错误，退出应用
     app.quit()
     return
@@ -119,10 +135,16 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', () => {
+  // 停止提醒调度器
+  if (reminderScheduler) {
+    reminderScheduler.stop()
+    reminderScheduler = null
+  }
+
   // 关闭数据库连接
   const dbService = getDatabaseService()
   dbService.close()
-  
+
   if (process.platform !== 'darwin') {
     app.quit()
   }
@@ -141,58 +163,59 @@ async function testRepositories(): Promise<void> {
     const knowledgeRepo = getKnowledgeRepository()
     const reviewRepo = getReviewRepository()
 
+    // 注释掉测试代码，避免每次启动都创建测试数据
     // 测试1: 创建知识点
-    const knowledge = knowledgeRepo.create({
-      title: '测试知识点',
-      content: '这是测试内容',
-      tags: ['测试', 'Repository'],
-      frequencyCoefficient: 1.0
-    })
-    log.info('✅ Created knowledge:', knowledge)
+    // const knowledge = knowledgeRepo.create({
+    //   title: '测试知识点',
+    //   content: '这是测试内容',
+    //   tags: ['测试', 'Repository'],
+    //   frequencyCoefficient: 1.0
+    // })
+    // log.info('✅ Created knowledge:', knowledge)
 
     // 测试2: 查询知识点
-    const found = knowledgeRepo.findById(knowledge.id)
-    log.info('✅ Found knowledge:', found)
+    // const found = knowledgeRepo.findById(knowledge.id)
+    // log.info('✅ Found knowledge:', found)
 
     // 测试3: 搜索知识点
-    const searchResults = knowledgeRepo.search('测试')
-    log.info(`✅ Search results: ${searchResults.length} records`)
+    // const searchResults = knowledgeRepo.search('测试')
+    // log.info(`✅ Search results: ${searchResults.length} records`)
 
     // 测试4: 按标签查询
-    const tagResults = knowledgeRepo.findByTags(['测试'])
-    log.info(`✅ Tag results: ${tagResults.length} records`)
+    // const tagResults = knowledgeRepo.findByTags(['测试'])
+    // log.info(`✅ Tag results: ${tagResults.length} records`)
 
     // 测试5: 更新知识点
-    const updated = knowledgeRepo.update(knowledge.id, {
-      title: '测试知识点（已更新）'
-    })
-    log.info('✅ Updated knowledge:', updated)
+    // const updated = knowledgeRepo.update(knowledge.id, {
+    //   title: '测试知识点（已更新）'
+    // })
+    // log.info('✅ Updated knowledge:', updated)
 
     // 测试6: 更新频率系数
-    const coefficientUpdated = knowledgeRepo.updateFrequencyCoefficient(knowledge.id, 1.5)
-    log.info(`✅ Frequency coefficient updated: ${coefficientUpdated}`)
+    // const coefficientUpdated = knowledgeRepo.updateFrequencyCoefficient(knowledge.id, 1.5)
+    // log.info(`✅ Frequency coefficient updated: ${coefficientUpdated}`)
 
     // 测试7: 创建复习记录
-    const review = reviewRepo.createReview(
-      knowledge.id,
-      5,
-      new Date(Date.now() + 24 * 60 * 60 * 1000) // 明天
-    )
-    log.info('✅ Created review:', review)
+    // const review = reviewRepo.createReview(
+    //   knowledge.id,
+    //   5,
+    //   new Date(Date.now() + 24 * 60 * 60 * 1000) // 明天
+    // )
+    // log.info('✅ Created review:', review)
 
     // 测试8: 查询知识点的复习历史
-    const reviewHistory = reviewRepo.findByKnowledgeId(knowledge.id)
-    log.info(`✅ Review history: ${reviewHistory.length} records`)
+    // const reviewHistory = reviewRepo.findByKnowledgeId(knowledge.id)
+    // log.info(`✅ Review history: ${reviewHistory.length} records`)
 
     // 测试9: 查询到期复习
-    const dueReviews = reviewRepo.findDueReviews(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000))
-    log.info(`✅ Due reviews: ${dueReviews.length} records`)
+    // const dueReviews = reviewRepo.findDueReviews(new Date(Date.now() + 2 * 24 * 60 * 60 * 1000))
+    // log.info(`✅ Due reviews: ${dueReviews.length} records`)
 
     // 测试10: 查询所有知识点
-    const allKnowledge = knowledgeRepo.findAll()
-    log.info(`✅ All knowledge: ${allKnowledge.length} records`)
+    // const allKnowledge = knowledgeRepo.findAll()
+    // log.info(`✅ All knowledge: ${allKnowledge.length} records`)
 
-    log.info('=== All Repository tests passed! ===')
+    log.info('=== Repository initialization completed ===')
   } catch (error) {
     log.error('Repository test failed:', error)
   }

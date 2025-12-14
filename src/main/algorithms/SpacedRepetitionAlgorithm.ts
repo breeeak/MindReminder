@@ -1,6 +1,6 @@
 /**
  * 间隔重复学习算法（基于艾宾浩斯遗忘曲线）
- * 
+ *
  * 实现科学的间隔重复学习算法，根据用户评分动态调整复习间隔。
  * 遵循艾宾浩斯遗忘曲线原理，最大化记忆保持率。
  */
@@ -10,23 +10,23 @@ import type { ReviewHistory } from '../database/types'
 export class SpacedRepetitionAlgorithm {
   /**
    * 评分对应的复习间隔系数
-   * 
+   *
    * 设计原理：
    * - 评分越低，系数越小，下次复习越早
    * - 评分越高，系数越大，下次复习可延后
    * - 中性评分（3分）系数为1.0，保持标准间隔
    */
   private static readonly RATING_MULTIPLIERS: Record<number, number> = {
-    1: 0.5,  // 😟 忘记了
-    2: 0.7,  // 🤔 记得一点
-    3: 1.0,  // 😐 记得一般
-    4: 1.2,  // 😊 记得还可以
-    5: 1.5   // 🎯 非常熟悉
+    1: 0.5, // 😟 忘记了
+    2: 0.7, // 🤔 记得一点
+    3: 1.0, // 😐 记得一般
+    4: 1.2, // 😊 记得还可以
+    5: 1.5 // 🎯 非常熟悉
   }
 
   /**
    * 基础复习间隔（天）
-   * 
+   *
    * 基于艾宾浩斯遗忘曲线原理：
    * - 第1次（1天）: 初次记忆巩固期
    * - 第2次（2天）: 短期记忆强化期
@@ -39,7 +39,7 @@ export class SpacedRepetitionAlgorithm {
 
   /**
    * 获取评分对应的复习间隔系数
-   * 
+   *
    * @param rating 评分（1-5的整数）
    * @returns 间隔系数
    * @throws Error 如果评分无效
@@ -53,10 +53,10 @@ export class SpacedRepetitionAlgorithm {
 
   /**
    * 计算下次复习时间
-   * 
+   *
    * 计算公式：
    * nextReviewDate = lastReviewDate + (baseInterval × ratingMultiplier × frequencyCoefficient)
-   * 
+   *
    * @param lastReviewDate 上次复习时间
    * @param reviewCount 复习次数（从1开始）
    * @param rating 本次复习评分（1-5）
@@ -102,12 +102,12 @@ export class SpacedRepetitionAlgorithm {
 
   /**
    * 判断知识点是否已掌握
-   * 
+   *
    * 三重条件判断（必须同时满足）：
    * 1. 次数条件：至少5次复习（保证充分练习）
    * 2. 质量条件：最近3次评分≥4（保证高质量）
    * 3. 时间条件：跨度≥30天（保证长期记忆）
-   * 
+   *
    * @param reviewHistory 复习历史记录（按时间倒序排列，最新的在前）
    * @returns 是否已掌握
    */
@@ -119,7 +119,7 @@ export class SpacedRepetitionAlgorithm {
 
     // 条件2: 最近3次复习评分均 ≥ 4
     const recentReviews = reviewHistory.slice(0, 3)
-    const allHighRatings = recentReviews.every(review => review.rating >= 4)
+    const allHighRatings = recentReviews.every((review) => review.rating >= 4)
     if (!allHighRatings) {
       return false
     }
@@ -134,4 +134,3 @@ export class SpacedRepetitionAlgorithm {
     return true
   }
 }
-

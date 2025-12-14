@@ -1,0 +1,65 @@
+.reminder-card {
+  margin-bottom: 12px;
+}
+
+.reminder-card.completed {
+  opacity: 0.7;
+  background: #f5f5f5;
+}
+
+.reminder-card.overdue {
+  border-left: 3px solid #ff4d4f;
+}
+
+.reminder-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.reminder-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.title-completed {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.complete-icon {
+  color: #52c41a;
+}
+
+.reminder-content {
+  margin: 12px 0;
+  padding: 8px 12px;
+  background: #fafafa;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.reminder-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 12px;
+  color: #999;
+}
+
+.overdue-text {
+  color: #ff4d4f;
+  font-weight: 500;
+}
+
+
+
