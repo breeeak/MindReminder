@@ -106,7 +106,7 @@ export const StatisticsPage: React.FC = () => {
       {/* 本周统计图表 */}
       <Row gutter={16} style={{ marginBottom: 24 }}>
         <Col span={12}>
-          <Card title="本周新增知识点" bodyStyle={{ padding: '24px 24px 12px' }}>
+          <Card title="本周新增知识点" styles={{ body: { padding: '24px 24px 12px' } }}>
             <div className="bar-chart">
               {weeklyStatistics.dates.map((date, index) => (
                 <div key={date} className="bar-item">
@@ -128,7 +128,7 @@ export const StatisticsPage: React.FC = () => {
           </Card>
         </Col>
         <Col span={12}>
-          <Card title="本周复习数量" bodyStyle={{ padding: '24px 24px 12px' }}>
+          <Card title="本周复习数量" styles={{ body: { padding: '24px 24px 12px' } }}>
             <div className="bar-chart">
               {weeklyStatistics.dates.map((date, index) => (
                 <div key={date} className="bar-item">

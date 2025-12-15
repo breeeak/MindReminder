@@ -84,11 +84,13 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ session, onExit }) => {
           flexDirection: 'column',
           boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
         }}
-        bodyStyle={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '48px'
+        styles={{
+          body: {
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            padding: '48px'
+          }
         }}
       >
         {/* 问题显示 */}
@@ -163,6 +165,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ session, onExit }) => {
 }
 
 export default React.memo(ReviewCard)
+
+
 
 
 

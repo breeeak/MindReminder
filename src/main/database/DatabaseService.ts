@@ -3,6 +3,7 @@ import { getAllMigrations } from './migrations'
 import { AppError, DatabaseError, MigrationError } from '../utils/errors'
 import { getDatabasePath } from '../utils/pathHelper'
 import log from '../utils/logger'
+import { DatabaseHealthCheck } from './DatabaseHealthCheck'
 
 export class DatabaseService {
   private db: Database.Database | null = null
@@ -18,7 +19,7 @@ export class DatabaseService {
   /**
    * 初始化数据库连接
    */
-  initialize(): void {
+  async initialize(): Promise<void> {
     try {
       // 创建数据库连接
       this.db = new Database(this.dbPath, {
@@ -36,10 +37,8 @@ export class DatabaseService {
       // 执行迁移
       this.runMigrations()
 
-      // 验证完整性
-      if (!this.checkIntegrity()) {
-        throw new DatabaseError('Database integrity check failed')
-      }
+      // 验证完整性和健康状况
+      await this.performHealthCheck()
 
       log.info('Database initialized successfully')
     } catch (error) {
@@ -180,6 +179,43 @@ export class DatabaseService {
       log.error('Database integrity check error:', error)
       return false
     }
+  }
+
+  /**
+   * 执行健康检查
+   */
+  async performHealthCheck(): Promise<void> {
+    if (!this.db) {
+      throw new DatabaseError('Database not initialized')
+    }
+
+    const healthCheck = new DatabaseHealthCheck(this.db, this.dbPath)
+    const result = await healthCheck.performFullCheck()
+
+    if (!result.isHealthy) {
+      log.warn('Database health check failed. Attempting repair...')
+
+      // 创建紧急备份
+      const backupPath = await healthCheck.createEmergencyBackup()
+      if (backupPath) {
+        log.info('Emergency backup created:', backupPath)
+      }
+
+      // 尝试修复
+      const repaired = await healthCheck.attemptRepair()
+
+      if (!repaired) {
+        throw new DatabaseError(
+          'Database health check failed and repair unsuccessful. Please restore from backup.'
+        )
+      }
+
+      log.info('Database repaired successfully')
+    }
+
+    // 记录数据库统计信息
+    const stats = healthCheck.getStatistics()
+    log.info('Database statistics:', stats)
   }
 }
 

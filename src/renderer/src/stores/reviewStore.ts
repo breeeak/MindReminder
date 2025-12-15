@@ -220,6 +220,13 @@ export const useReviewStore = create<ReviewStore>()(
 
         // 检查是否完成所有任务
         if (nextIndex >= session.tasks.length) {
+          // 先更新completedIds，再结束会话
+          set({
+            currentSession: {
+              ...session,
+              completedIds: newCompletedIds
+            }
+          })
           get().endSession()
           return
         }
@@ -268,6 +275,8 @@ export const useReviewStore = create<ReviewStore>()(
     { name: 'ReviewStore' }
   )
 )
+
+
 
 
 

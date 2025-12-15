@@ -72,8 +72,18 @@ const reviewAPI = {
  * Settings API
  */
 const settingsAPI = {
+  getAll: () => ipcRenderer.invoke(IPCChannel.SETTINGS_GET_ALL),
+  getReview: () => ipcRenderer.invoke(IPCChannel.SETTINGS_GET_REVIEW),
+  updateReview: (settings: any) => ipcRenderer.invoke(IPCChannel.SETTINGS_UPDATE_REVIEW, settings),
+  getReminder: () => ipcRenderer.invoke(IPCChannel.SETTINGS_GET_REMINDER),
+  updateReminder: (settings: any) => ipcRenderer.invoke(IPCChannel.SETTINGS_UPDATE_REMINDER, settings),
+  getSystem: () => ipcRenderer.invoke(IPCChannel.SETTINGS_GET_SYSTEM),
+  updateSystem: (settings: any) => ipcRenderer.invoke(IPCChannel.SETTINGS_UPDATE_SYSTEM, settings),
+  getWindow: () => ipcRenderer.invoke(IPCChannel.SETTINGS_GET_WINDOW),
+  updateWindow: (state: any) => ipcRenderer.invoke(IPCChannel.SETTINGS_UPDATE_WINDOW, state),
+  resetDefaults: () => ipcRenderer.invoke(IPCChannel.SETTINGS_RESET_DEFAULTS),
   get: (key: string) => ipcRenderer.invoke(IPCChannel.SETTINGS_GET, key),
-  update: (key: string, value: any) => ipcRenderer.invoke(IPCChannel.SETTINGS_UPDATE, key, value)
+  set: (key: string, value: string) => ipcRenderer.invoke(IPCChannel.SETTINGS_SET, key, value)
 }
 
 /**
@@ -118,6 +128,36 @@ const reminderAPI = {
   getPendingCount: () => ipcRenderer.invoke('reminder:getPendingCount')
 }
 
+/**
+ * Backup API
+ */
+const backupAPI = {
+  create: () => ipcRenderer.invoke(IPCChannel.BACKUP_CREATE),
+  list: () => ipcRenderer.invoke(IPCChannel.BACKUP_LIST),
+  restore: (backupPath: string) => ipcRenderer.invoke(IPCChannel.BACKUP_RESTORE, backupPath),
+  exportJSON: () => ipcRenderer.invoke(IPCChannel.BACKUP_EXPORT_JSON),
+  exportCSV: () => ipcRenderer.invoke(IPCChannel.BACKUP_EXPORT_CSV),
+  importJSON: () => ipcRenderer.invoke(IPCChannel.BACKUP_IMPORT_JSON),
+  getDirectory: () => ipcRenderer.invoke(IPCChannel.BACKUP_GET_DIRECTORY)
+}
+
+/**
+ * Tray API
+ */
+const trayAPI = {
+  updateReviewCount: (count: number) => ipcRenderer.invoke(IPCChannel.TRAY_UPDATE_REVIEW_COUNT, count),
+  onNavigateTo: (callback: (route: string) => void) => {
+    const handler = (_event: any, route: string) => callback(route)
+    ipcRenderer.on('navigate-to', handler)
+    return () => ipcRenderer.removeListener('navigate-to', handler)
+  },
+  onShowQuickAdd: (callback: () => void) => {
+    const handler = () => callback()
+    ipcRenderer.on('show-quick-add', handler)
+    return () => ipcRenderer.removeListener('show-quick-add', handler)
+  }
+}
+
 // Use `contextBridge` APIs to expose Electron APIs to renderer only if context isolation is enabled
 if (process.contextIsolated) {
   try {
@@ -130,7 +170,9 @@ if (process.contextIsolated) {
       settings: settingsAPI,
       statistics: statisticsAPI,
       diary: diaryAPI,
-      reminder: reminderAPI
+      reminder: reminderAPI,
+      backup: backupAPI,
+      tray: trayAPI
     })
   } catch (error) {
     console.error('Failed to expose APIs:', error)
@@ -147,6 +189,8 @@ if (process.contextIsolated) {
     settings: settingsAPI,
     statistics: statisticsAPI,
     diary: diaryAPI,
-    reminder: reminderAPI
+    reminder: reminderAPI,
+    backup: backupAPI,
+    tray: trayAPI
   }
 }

@@ -159,6 +159,14 @@ export const darkTheme: ThemeConfig = {
     },
     Card: {
       borderRadius: 6
+    },
+    Select: {
+      colorText: 'rgba(255, 255, 255, 0.87)', // 下拉选项文字颜色
+      colorTextPlaceholder: 'rgba(255, 255, 255, 0.45)', // 占位符颜色
+      optionSelectedColor: 'rgba(255, 255, 255, 0.87)', // 选中项文字颜色
+      colorBgElevated: '#1f1f1f', // 下拉菜单背景色
+      controlItemBgHover: '#262626', // 悬停背景色
+      controlItemBgActive: '#111b26' // 选中背景色
     }
   }
 }

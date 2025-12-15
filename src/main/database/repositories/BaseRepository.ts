@@ -125,7 +125,8 @@ export abstract class BaseRepository<T extends { id: string }> {
       // 构建INSERT语句
       const columns = Object.keys(dbData)
       const placeholders = columns.map(() => '?').join(', ')
-      const values = Object.values(dbData)
+      // 转换布尔值为整数（SQLite兼容性）
+      const values = Object.values(dbData).map((v) => (typeof v === 'boolean' ? (v ? 1 : 0) : v))
 
       const sql = `INSERT INTO ${this.tableName} (${columns.join(', ')}) VALUES (${placeholders})`
       const stmt = this.db.prepare(sql)
@@ -161,7 +162,8 @@ export abstract class BaseRepository<T extends { id: string }> {
       // 构建UPDATE语句
       const columns = Object.keys(dbData)
       const setClause = columns.map((col) => `${col} = ?`).join(', ')
-      const values = Object.values(dbData)
+      // 转换布尔值为整数（SQLite兼容性）
+      const values = Object.values(dbData).map((v) => (typeof v === 'boolean' ? (v ? 1 : 0) : v))
 
       const sql = `UPDATE ${this.tableName} SET ${setClause} WHERE id = ?`
       const stmt = this.db.prepare(sql)

@@ -36,5 +36,10 @@ declare module '*.icns' {
   export default src
 }
 
-
+// 扩展 Electron App 类型
+declare module 'electron' {
+  interface App {
+    isQuitting?: boolean
+  }
+}
 

@@ -189,29 +189,29 @@ describe('SpacedRepetitionAlgorithm', () => {
           id: '1',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-01'),
-          nextReviewDate: new Date('2025-01-02')
+          reviewedAt: new Date('2025-01-01').getTime(),
+          nextReviewAt: new Date('2025-01-02').getTime()
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-02'),
-          nextReviewDate: new Date('2025-01-04')
+          reviewedAt: new Date('2025-01-02').getTime(),
+          nextReviewAt: new Date('2025-01-04').getTime()
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-04'),
-          nextReviewDate: new Date('2025-01-08')
+          reviewedAt: new Date('2025-01-04').getTime(),
+          nextReviewAt: new Date('2025-01-08').getTime()
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-08'),
-          nextReviewDate: new Date('2025-01-15')
+          reviewedAt: new Date('2025-01-08').getTime(),
+          nextReviewAt: new Date('2025-01-15').getTime()
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(false)
@@ -223,36 +223,36 @@ describe('SpacedRepetitionAlgorithm', () => {
           id: '5',
           knowledgeId: 'k1',
           rating: 3, // 最近第1次，低分
-          reviewDate: new Date('2025-02-01'),
-          nextReviewDate: new Date('2025-02-16')
+          reviewedAt: new Date('2025-02-01').getTime(),
+          nextReviewAt: new Date('2025-02-16').getTime()
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-15'),
-          nextReviewDate: new Date('2025-02-01')
+          reviewedAt: new Date('2025-01-15').getTime(),
+          nextReviewAt: new Date('2025-02-01').getTime()
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-08'),
-          nextReviewDate: new Date('2025-01-15')
+          reviewedAt: new Date('2025-01-08').getTime(),
+          nextReviewAt: new Date('2025-01-15').getTime()
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-04'),
-          nextReviewDate: new Date('2025-01-08')
+          reviewedAt: new Date('2025-01-04').getTime(),
+          nextReviewAt: new Date('2025-01-08').getTime()
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2024-12-01'),
-          nextReviewDate: new Date('2025-01-04')
+          reviewedAt: new Date('2024-12-01').getTime(),
+          nextReviewAt: new Date('2025-01-04').getTime()
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(false)
@@ -264,36 +264,36 @@ describe('SpacedRepetitionAlgorithm', () => {
           id: '5',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-02-01'),
-          nextReviewDate: new Date('2025-02-16')
+          reviewedAt: new Date('2025-02-01').getTime(),
+          nextReviewAt: new Date('2025-02-16').getTime()
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 3, // 最近第2次，低分
-          reviewDate: new Date('2025-01-15'),
-          nextReviewDate: new Date('2025-02-01')
+          reviewedAt: new Date('2025-01-15').getTime(),
+          nextReviewAt: new Date('2025-02-01').getTime()
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-08'),
-          nextReviewDate: new Date('2025-01-15')
+          reviewedAt: new Date('2025-01-08').getTime(),
+          nextReviewAt: new Date('2025-01-15').getTime()
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-04'),
-          nextReviewDate: new Date('2025-01-08')
+          reviewedAt: new Date('2025-01-04').getTime(),
+          nextReviewAt: new Date('2025-01-08').getTime()
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2024-12-01'),
-          nextReviewDate: new Date('2025-01-04')
+          reviewedAt: new Date('2024-12-01').getTime(),
+          nextReviewAt: new Date('2025-01-04').getTime()
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(false)
@@ -305,218 +305,218 @@ describe('SpacedRepetitionAlgorithm', () => {
           id: '5',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-02-01'),
-          nextReviewDate: new Date('2025-02-16')
+          reviewedAt: new Date('2025-02-01').getTime(),
+          nextReviewAt: new Date('2025-02-16').getTime()
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-15'),
-          nextReviewDate: new Date('2025-02-01')
+          reviewedAt: new Date('2025-01-15').getTime(),
+          nextReviewAt: new Date('2025-02-01').getTime()
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 3, // 最近第3次，低分
-          reviewDate: new Date('2025-01-08'),
-          nextReviewDate: new Date('2025-01-15')
+          reviewedAt: new Date('2025-01-08').getTime(),
+          nextReviewAt: new Date('2025-01-15').getTime()
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2025-01-04'),
-          nextReviewDate: new Date('2025-01-08')
+          reviewedAt: new Date('2025-01-04').getTime(),
+          nextReviewAt: new Date('2025-01-08').getTime()
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2024-12-01'),
-          nextReviewDate: new Date('2025-01-04')
+          reviewedAt: new Date('2024-12-01').getTime(),
+          nextReviewAt: new Date('2025-01-04').getTime()
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(false)
     })
 
     it('时间跨度不足30天应返回false（25天）', () => {
-      const now = new Date()
+      const now = Date.now()
       const history: ReviewHistory[] = [
         {
           id: '5',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 5 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 10 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 15 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 20 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 20 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 25 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(false)
     })
 
     it('满足所有条件应返回true（5次+最近3次高分+超过30天）', () => {
-      const now = new Date()
+      const now = Date.now()
       const history: ReviewHistory[] = [
         {
           id: '5',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 5 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 10 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 15 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 3,
-          reviewDate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 25 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 3,
-          reviewDate: new Date(now.getTime() - 35 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 35 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(true)
     })
 
     it('恰好30天边界条件应返回true', () => {
-      const now = new Date()
+      const now = Date.now()
       const history: ReviewHistory[] = [
         {
           id: '5',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 5 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 10 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 15 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 2,
-          reviewDate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 25 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 2,
-          reviewDate: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 30 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(true)
     })
 
     it('超过5次复习且满足条件应返回true（7次复习）', () => {
-      const now = new Date()
+      const now = Date.now()
       const history: ReviewHistory[] = [
         {
           id: '7',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 3 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 3 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '6',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 7 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '5',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 12 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 12 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 3,
-          reviewDate: new Date(now.getTime() - 18 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 18 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 25 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 3,
-          reviewDate: new Date(now.getTime() - 32 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 32 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 2,
-          reviewDate: new Date(now.getTime() - 40 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 40 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(true)
@@ -532,50 +532,50 @@ describe('SpacedRepetitionAlgorithm', () => {
           id: '1',
           knowledgeId: 'k1',
           rating: 5,
-          reviewDate: new Date('2024-01-01'),
-          nextReviewDate: new Date('2024-01-02')
+          reviewedAt: new Date('2024-01-01').getTime(),
+          nextReviewAt: new Date('2024-01-02').getTime()
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(false)
     })
 
     it('最近3次全是评分4应返回true（边界条件）', () => {
-      const now = new Date()
+      const now = Date.now()
       const history: ReviewHistory[] = [
         {
           id: '5',
           knowledgeId: 'k1',
           rating: 4, // 评分4是边界
-          reviewDate: new Date(now.getTime() - 5 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 5 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '4',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 10 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '3',
           knowledgeId: 'k1',
           rating: 4,
-          reviewDate: new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 15 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '2',
           knowledgeId: 'k1',
           rating: 1,
-          reviewDate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 25 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         },
         {
           id: '1',
           knowledgeId: 'k1',
           rating: 1,
-          reviewDate: new Date(now.getTime() - 35 * 24 * 60 * 60 * 1000),
-          nextReviewDate: now
+          reviewedAt: now - 35 * 24 * 60 * 60 * 1000,
+          nextReviewAt: now
         }
       ]
       expect(SpacedRepetitionAlgorithm.isKnowledgeMastered(history)).toBe(true)

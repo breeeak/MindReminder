@@ -127,7 +127,7 @@ export const KnowledgeListPage = () => {
         <FilterTags />
 
         {/* 知识点列表 */}
-        <Card style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }} bodyStyle={{ flex: 1, overflow: 'auto' }}>
+        <Card style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }} styles={{ body: { flex: 1, overflow: 'auto' } }}>
           {isLoading ? (
             <div style={{ textAlign: 'center', padding: '40px' }}>
               <Spin size="large" />

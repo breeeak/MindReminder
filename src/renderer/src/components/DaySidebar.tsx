@@ -54,7 +54,7 @@ export const DaySidebar: React.FC<DaySidebarProps> = ({
     <Drawer
       title="日期详情"
       placement="right"
-      width={400}
+      size="default"
       open={open}
       onClose={onClose}
       destroyOnClose

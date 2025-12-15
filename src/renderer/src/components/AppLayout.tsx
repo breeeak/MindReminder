@@ -4,10 +4,7 @@ import {
   CalendarOutlined,
   BookOutlined,
   BarChartOutlined,
-  PlusOutlined,
   SettingOutlined,
-  BulbOutlined,
-  BulbFilled,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   HomeOutlined,
@@ -15,7 +12,6 @@ import {
   EditOutlined
 } from '@ant-design/icons'
 import { useNavigate, useLocation, Outlet } from 'react-router-dom'
-import { useAppStore } from '../stores/appStore'
 
 const { Header, Sider, Content } = Layout
 
@@ -31,7 +27,6 @@ interface AppLayoutProps {
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }): React.ReactElement => {
   const navigate = useNavigate()
   const location = useLocation()
-  const { theme, toggleTheme } = useAppStore()
 
   // 左侧导航折叠状态
   const [collapsed, setCollapsed] = useState<boolean>(() => {
@@ -70,6 +65,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }): React.ReactEl
     if (location.pathname.startsWith('/statistics')) return '/statistics'
     if (location.pathname.startsWith('/reminders')) return '/reminders'
     if (location.pathname.startsWith('/diaries')) return '/diaries'
+    // 设置页面不在左侧菜单中，不需要选中状态
     return '/'
   }
 
@@ -102,7 +98,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }): React.ReactEl
     {
       key: '/diaries',
       icon: <EditOutlined />,
-      label: '我的日记',
+      label: '今日计划',
       onClick: () => navigate('/diaries')
     },
     {
@@ -118,16 +114,6 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }): React.ReactEl
       onClick: () => navigate('/statistics')
     }
   ]
-
-  // 获取主题图标
-  const getThemeIcon = (): React.ReactNode => {
-    return theme === 'dark' ? <BulbFilled /> : <BulbOutlined />
-  }
-
-  // 获取主题提示文本
-  const getThemeTooltip = (): string => {
-    return theme === 'dark' ? '深色模式' : '浅色模式'
-  }
 
   return (
     <Layout style={{ minHeight: '100vh', height: '100%' }}>
@@ -178,11 +164,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }): React.ReactEl
           </Button> */}
           <Button
             type="text"
-            icon={getThemeIcon()}
-            onClick={toggleTheme}
-            title={getThemeTooltip()}
+            icon={<SettingOutlined />}
+            title="设置"
+            onClick={() => navigate('/settings')}
           />
-          <Button type="text" icon={<SettingOutlined />} title="设置" />
         </Space>
       </Header>
 

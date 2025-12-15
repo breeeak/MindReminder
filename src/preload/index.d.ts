@@ -354,11 +354,74 @@ export interface ReviewAPI {
 }
 
 /**
+ * ReviewSettings类型
+ */
+export interface ReviewSettings {
+  globalFrequencyCoefficient: number
+  memoryStandardDays: number
+  memoryStandardRating: number
+  longTermReviewInterval: number
+}
+
+/**
+ * ReminderSettings类型
+ */
+export interface ReminderSettings {
+  enableDailyReminder: boolean
+  reminderTimes: string[]
+  reminderSound: boolean
+  reminderMethod: 'notification' | 'tray'
+}
+
+/**
+ * SystemSettings类型
+ */
+export interface SystemSettings {
+  autoLaunch: boolean
+  minimizeToTray: boolean
+  closeButtonAction: 'ask' | 'quit' | 'minimize'
+  dataPath: string
+  theme: 'light' | 'dark'
+}
+
+/**
+ * WindowState类型
+ */
+export interface WindowState {
+  width: number
+  height: number
+  x: number
+  y: number
+  currentView: string
+  sidebarCollapsed: boolean
+}
+
+/**
+ * AppSettings类型
+ */
+export interface AppSettings {
+  review: ReviewSettings
+  reminder: ReminderSettings
+  system: SystemSettings
+  window: WindowState
+}
+
+/**
  * Settings API接口
  */
 export interface SettingsAPI {
-  get: (key: string) => Promise<IPCResponse<any>>
-  update: (key: string, value: any) => Promise<IPCResponse<void>>
+  getAll: () => Promise<IPCResponse<AppSettings>>
+  getReview: () => Promise<IPCResponse<ReviewSettings>>
+  updateReview: (settings: Partial<ReviewSettings>) => Promise<IPCResponse<ReviewSettings>>
+  getReminder: () => Promise<IPCResponse<ReminderSettings>>
+  updateReminder: (settings: Partial<ReminderSettings>) => Promise<IPCResponse<ReminderSettings>>
+  getSystem: () => Promise<IPCResponse<SystemSettings>>
+  updateSystem: (settings: Partial<SystemSettings>) => Promise<IPCResponse<SystemSettings>>
+  getWindow: () => Promise<IPCResponse<WindowState>>
+  updateWindow: (state: Partial<WindowState>) => Promise<IPCResponse<WindowState>>
+  resetDefaults: () => Promise<IPCResponse<AppSettings>>
+  get: (key: string) => Promise<IPCResponse<string | null>>
+  set: (key: string, value: string) => Promise<IPCResponse<null>>
 }
 
 /**
@@ -401,6 +464,42 @@ export interface ReminderAPI {
 }
 
 /**
+ * BackupMetadata类型
+ */
+export interface BackupMetadata {
+  fileName: string
+  filePath: string
+  createdAt: number
+  size: number
+  knowledgeCount: number
+  reviewCount: number
+  diaryCount: number
+  reminderCount: number
+}
+
+/**
+ * Backup API接口
+ */
+export interface BackupAPI {
+  create: () => Promise<IPCResponse<string>>
+  list: () => Promise<IPCResponse<BackupMetadata[]>>
+  restore: (backupPath: string) => Promise<IPCResponse<null>>
+  exportJSON: () => Promise<IPCResponse<string | null>>
+  exportCSV: () => Promise<IPCResponse<string[] | null>>
+  importJSON: () => Promise<IPCResponse<string | null>>
+  getDirectory: () => Promise<IPCResponse<string>>
+}
+
+/**
+ * Tray API接口
+ */
+export interface TrayAPI {
+  updateReviewCount: (count: number) => Promise<IPCResponse<null>>
+  onNavigateTo: (callback: (route: string) => void) => () => void
+  onShowQuickAdd: (callback: () => void) => () => void
+}
+
+/**
  * 全局API接口
  */
 export interface API {
@@ -412,6 +511,8 @@ export interface API {
   statistics: StatisticsAPI
   diary: DiaryAPI
   reminder: ReminderAPI
+  backup: BackupAPI
+  tray: TrayAPI
 }
 
 /**

@@ -14,6 +14,19 @@ export class CategoryRepository extends BaseRepository<Category> {
   }
 
   /**
+   * 将数据库行映射为实体对象
+   * 重写以处理is_custom字段的整数转布尔值
+   */
+  protected mapRowToEntity(row: Record<string, any>): Category {
+    const entity = super.mapRowToEntity(row)
+    // 将is_custom从整数转换为布尔值
+    if ('isCustom' in entity) {
+      entity.isCustom = Boolean(entity.isCustom)
+    }
+    return entity
+  }
+
+  /**
    * 获取所有分类
    * @returns 所有分类列表
    */

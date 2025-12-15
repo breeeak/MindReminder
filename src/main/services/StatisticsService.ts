@@ -202,7 +202,7 @@ export class StatisticsService {
         knowledgeId: r.knowledgeId,
         knowledgeTitle: r.knowledge.title,
         rating: r.rating,
-        reviewedAt: r.reviewDate.toISOString()
+        reviewedAt: new Date(r.reviewedAt).toISOString()
       }))
 
       log.info(

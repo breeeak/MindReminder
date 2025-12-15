@@ -41,6 +41,15 @@ export const TodaySummaryCard: React.FC = () => {
     fetchPending()
   }, [fetchTodaySummary, fetchDiaryByDate, fetchPending])
 
+  // 更新托盘待复习数量
+  useEffect(() => {
+    if (todaySummary) {
+      window.api.tray.updateReviewCount(todaySummary.pendingReviewCount).catch(err => {
+        console.error('Failed to update tray review count:', err)
+      })
+    }
+  }, [todaySummary])
+
   if (todaySummaryLoading) {
     return (
       <Card>

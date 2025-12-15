@@ -432,10 +432,23 @@ export class ReviewService {
     const reviewRepo = getReviewRepository()
     const knowledgeRepo = getKnowledgeRepository()
 
-    // 获取每个知识点的最新复习记录
-    const reviews = completedIds.map((id) => reviewRepo.findByKnowledgeId(id, 1)[0]).filter(Boolean)
+    log.info('[ReviewService] Getting session stats', {
+      completedIdsCount: completedIds.length,
+      completedIds
+    })
 
-    const totalCount = reviews.length
+    // 获取每个知识点的最新复习记录
+    const reviews = completedIds
+      .map((id) => {
+        const records = reviewRepo.findByKnowledgeId(id, 1)
+        log.debug('[ReviewService] Review records for knowledge', { id, count: records.length })
+        return records[0]
+      })
+      .filter(Boolean)
+
+    log.info('[ReviewService] Reviews found', { reviewsCount: reviews.length })
+
+    const totalCount = completedIds.length // 使用completedIds的长度作为totalCount
     const averageRating =
       reviews.length > 0 ? reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length : 0
 
@@ -462,7 +475,7 @@ export class ReviewService {
       (k: any) => k.nextReviewAt && k.nextReviewAt <= nextWeek && k.nextReviewAt > tomorrow
     )
 
-    return {
+    const stats = {
       totalCount,
       averageRating: Math.round(averageRating * 10) / 10,
       duration,
@@ -472,8 +485,14 @@ export class ReviewService {
         nextWeek: nextWeekTasks.length
       }
     }
+
+    log.info('[ReviewService] Session stats', stats)
+
+    return stats
   }
 }
+
+
 
 
 

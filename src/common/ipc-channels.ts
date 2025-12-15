@@ -43,8 +43,18 @@ export enum IPCChannel {
   REVIEW_GET_SESSION_STATS = 'review:getSessionStats',
 
   // Settings 相关通道
+  SETTINGS_GET_ALL = 'settings:getAll',
+  SETTINGS_GET_REVIEW = 'settings:getReview',
+  SETTINGS_UPDATE_REVIEW = 'settings:updateReview',
+  SETTINGS_GET_REMINDER = 'settings:getReminder',
+  SETTINGS_UPDATE_REMINDER = 'settings:updateReminder',
+  SETTINGS_GET_SYSTEM = 'settings:getSystem',
+  SETTINGS_UPDATE_SYSTEM = 'settings:updateSystem',
+  SETTINGS_GET_WINDOW = 'settings:getWindow',
+  SETTINGS_UPDATE_WINDOW = 'settings:updateWindow',
+  SETTINGS_RESET_DEFAULTS = 'settings:resetDefaults',
   SETTINGS_GET = 'settings:get',
-  SETTINGS_UPDATE = 'settings:update',
+  SETTINGS_SET = 'settings:set',
 
   // Statistics 相关通道
   STATISTICS_GET_MONTH = 'statistics:getMonth',
@@ -53,5 +63,17 @@ export enum IPCChannel {
   STATISTICS_GET_YEAR = 'statistics:getYear',
   STATISTICS_GET_TODAY_SUMMARY = 'statistics:getTodaySummary',
   STATISTICS_GET_OVERALL = 'statistics:getOverallStatistics',
-  STATISTICS_GET_WEEKLY = 'statistics:getWeeklyStatistics'
+  STATISTICS_GET_WEEKLY = 'statistics:getWeeklyStatistics',
+
+  // Backup 相关通道
+  BACKUP_CREATE = 'backup:create',
+  BACKUP_LIST = 'backup:list',
+  BACKUP_RESTORE = 'backup:restore',
+  BACKUP_EXPORT_JSON = 'backup:exportJSON',
+  BACKUP_EXPORT_CSV = 'backup:exportCSV',
+  BACKUP_IMPORT_JSON = 'backup:importJSON',
+  BACKUP_GET_DIRECTORY = 'backup:getDirectory',
+
+  // Tray 相关通道
+  TRAY_UPDATE_REVIEW_COUNT = 'tray:updateReviewCount'
 }

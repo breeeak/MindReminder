@@ -97,7 +97,7 @@ export const ReminderListPage = () => {
         {/* 提醒列表 */}
         <Card
           style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}
-          bodyStyle={{ flex: 1, overflow: 'auto' }}
+          styles={{ body: { flex: 1, overflow: 'auto' } }}
         >
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px' }}>
@@ -227,3 +227,5 @@ export const ReminderListPage = () => {
     </div>
   )
 }
+
+

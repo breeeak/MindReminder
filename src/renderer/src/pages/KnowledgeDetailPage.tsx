@@ -65,6 +65,7 @@ export const KnowledgeDetailPage = () => {
 
   // Review Store方法
   const markForImmediateReview = useReviewStore((state) => state.markForImmediateReview)
+  const startReviewSession = useReviewStore((state) => state.startReviewSession)
 
   useEffect(() => {
     if (id) {
@@ -106,16 +107,18 @@ export const KnowledgeDetailPage = () => {
     })
   }
 
-  const handleStartReview = async () => {
-    if (id) {
-      try {
-        await markForImmediateReview(id)
-        message.success('已加入今日复习，正在跳转...')
-        navigate('/review')
-      } catch (error) {
-        message.error('加入复习失败')
-      }
+  const handleStartReview = () => {
+    if (!currentKnowledge) return
+
+    // 直接启动单个知识点的复习会话
+    const reviewTask = {
+      ...currentKnowledge,
+      priority: 'due_today' as const,
+      dueTime: Date.now()
     }
+
+    startReviewSession([reviewTask])
+    navigate('/review/session')
   }
 
   const handleMarkForReview = async () => {
@@ -190,12 +193,17 @@ export const KnowledgeDetailPage = () => {
         </Button>
 
         <Space>
-          <Button type="primary" icon={<PlayCircleOutlined />} onClick={handleStartReview}>
-            开始复习
-          </Button>
-          <Button icon={<ClockCircleOutlined />} onClick={handleMarkForReview}>
-            加入今日复习
-          </Button>
+          {/* 仅在没有复习历史时显示复习相关按钮 */}
+          {reviewHistory.length === 0 && (
+            <>
+              <Button type="primary" icon={<PlayCircleOutlined />} onClick={handleStartReview}>
+                开始复习
+              </Button>
+              <Button icon={<ClockCircleOutlined />} onClick={handleMarkForReview}>
+                加入今日复习
+              </Button>
+            </>
+          )}
           <Button icon={<EditOutlined />} onClick={handleEdit}>
             编辑
           </Button>
@@ -325,14 +333,9 @@ export const KnowledgeDetailPage = () => {
           <div style={{ textAlign: 'center', padding: '40px 0' }}>
             <Text type="secondary">这个知识点还没有复习记录</Text>
             <br />
-            <Button
-              type="primary"
-              icon={<PlayCircleOutlined />}
-              style={{ marginTop: '16px' }}
-              onClick={handleStartReview}
-            >
-              开始第一次复习
-            </Button>
+            <Text type="secondary" style={{ fontSize: '12px' }}>
+              点击上方"开始复习"按钮开始第一次复习
+            </Text>
           </div>
         ) : (
           <Space direction="vertical" style={{ width: '100%' }} size="middle">

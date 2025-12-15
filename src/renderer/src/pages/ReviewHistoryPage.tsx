@@ -48,7 +48,7 @@ export const ReviewHistoryPage: React.FC = () => {
     const fetchReviews = async () => {
       setLoading(true)
       try {
-        const response = await window.api.statistics.getDay(date)
+        const response = await window.api.statistics.getDayActivities(date)
         setReviews(response.data.reviewList || [])
       } catch (error) {
         console.error('Failed to fetch reviews:', error)
@@ -111,4 +111,6 @@ export const ReviewHistoryPage: React.FC = () => {
     </div>
   )
 }
+
+
 

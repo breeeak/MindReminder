@@ -1,7 +1,6 @@
 import React from 'react'
 import { Tooltip, theme } from 'antd'
 import dayjs from 'dayjs'
-import { DateTooltip } from './DateTooltip'
 import { useDiaryStore } from '../stores/diaryStore'
 import type { Reminder } from '../types'
 

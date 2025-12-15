@@ -3,7 +3,6 @@ import { Button, List, Card, Space, Typography, Empty, Spin, Input } from 'antd'
 import { PlusOutlined, CalendarOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import { useDiaryStore } from '../stores/diaryStore'
 import { DiaryEditor } from '../components/diary/DiaryEditor'
-import type { Diary } from '../types'
 import dayjs from 'dayjs'
 import ReactMarkdown from 'react-markdown'
 
@@ -73,7 +72,7 @@ export const DiaryListPage = () => {
         {/* 顶部标题和操作 */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <Title level={2} style={{ margin: 0 }}>
-            我的日记
+            今日计划
           </Title>
           <Button
             type="primary"
@@ -98,7 +97,7 @@ export const DiaryListPage = () => {
         {/* 日记列表 */}
         <Card
           style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}
-          bodyStyle={{ flex: 1, overflow: 'auto' }}
+          styles={{ body: { flex: 1, overflow: 'auto' } }}
         >
           {loading ? (
             <div style={{ textAlign: 'center', padding: '40px' }}>
@@ -219,3 +218,5 @@ export const DiaryListPage = () => {
     </div>
   )
 }
+
+

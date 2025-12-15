@@ -126,7 +126,7 @@ export class SpacedRepetitionAlgorithm {
 
     // 条件3: 距离首次记录时间 ≥ 30天
     const firstReview = reviewHistory[reviewHistory.length - 1]
-    const daysSinceFirst = (Date.now() - firstReview.reviewDate.getTime()) / (1000 * 60 * 60 * 24)
+    const daysSinceFirst = (Date.now() - firstReview.reviewedAt) / (1000 * 60 * 60 * 24)
     if (daysSinceFirst < 30) {
       return false
     }

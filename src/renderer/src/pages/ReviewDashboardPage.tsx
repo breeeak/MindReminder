@@ -28,6 +28,15 @@ const ReviewDashboardPage: React.FC = () => {
     }
   }, [fetchTodayReviews, refreshReviewStats, clearReviewData])
 
+  // 更新托盘待复习数量
+  useEffect(() => {
+    if (reviewStats) {
+      window.api.tray.updateReviewCount(reviewStats.todayRemaining).catch(err => {
+        console.error('Failed to update tray review count:', err)
+      })
+    }
+  }, [reviewStats])
+
   const handleStartReview = () => {
     if (todayReviews.length === 0) {
       return
@@ -92,6 +101,8 @@ const ReviewDashboardPage: React.FC = () => {
 }
 
 export default ReviewDashboardPage
+
+
 
 
 

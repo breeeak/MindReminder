@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Card, Space, Button, Spin, Typography, message } from 'antd'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import dayjs from 'dayjs'
 import { CalendarHeatmap } from '../components/CalendarHeatmap'
 import { CalendarWeekView } from '../components/CalendarWeekView'
 import { CalendarYearView } from '../components/CalendarYearView'
@@ -171,10 +172,9 @@ export const CalendarPage: React.FC = () => {
 
   return (
     <div style={{ padding: 24, height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Card style={{ flex: 1, display: 'flex', flexDirection: 'column' }} bodyStyle={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <Card style={{ flex: 1, display: 'flex', flexDirection: 'column' }} styles={{ body: { flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' } }}>
         {/* 页面标题和视图切换 */}
         <Space
-          direction="horizontal"
           style={{
             width: '100%',
             justifyContent: 'space-between',
@@ -191,7 +191,6 @@ export const CalendarPage: React.FC = () => {
 
         {/* 时间导航 */}
         <Space
-          direction="horizontal"
           style={{
             width: '100%',
             justifyContent: 'center',
