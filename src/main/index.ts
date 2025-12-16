@@ -104,6 +104,7 @@ function createWindow(): void {
     y: windowState.y,
     show: false,
     autoHideMenuBar: true,
+    title: 'MindReminder - 智能复习助手',
     minWidth: 800,
     minHeight: 600,
     ...(process.platform === 'linux' ? { icon } : {}),

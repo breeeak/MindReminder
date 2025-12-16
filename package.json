@@ -1,5 +1,6 @@
 {
   "name": "mindreminder",
+  "productName": "MindReminder",
   "version": "1.0.0",
   "description": "基于间隔重复算法的智能复习桌面应用",
   "main": "./out/main/index.js",

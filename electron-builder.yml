@@ -1,5 +1,5 @@
-appId: com.electron.app
-productName: mindreminder
+appId: com.mindreminder.app
+productName: MindReminder
 directories:
   buildResources: build
 files:
@@ -12,12 +12,29 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: mindreminder
+  executableName: MindReminder
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
 nsis:
-  artifactName: ${name}-${version}-setup.${ext}
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+  installerHeader: build/icon.ico
+  installerHeaderIcon: build/icon.ico
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  perMachine: false
+  artifactName: ${productName}-${version}-Setup.${ext}
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
-  createDesktopShortcut: always
+  license: null
 mac:
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
