@@ -830,4 +830,6 @@ Closes #123
 
 Made with ❤️ by MindReminder Team
 
+
+
 </div>
